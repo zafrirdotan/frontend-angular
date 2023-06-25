@@ -1,0 +1,83 @@
+<mat-drawer-container class="page-container" autosize>
+
+    <mat-drawer #drawer class="example-sidenav" mode="side" opened="true">
+        <div class="close-button-container">
+            <button mat-button class="new-button" (click)="createNewChat()">
+                <mat-icon>new</mat-icon>
+                <span>New Chat</span>
+            </button>
+            <button mat-raised-button class="close-button" (click)="drawer.close()">
+                <mat-icon>menu</mat-icon>
+            </button>
+        </div>
+        <div class="chat-button-container">
+            <div class="chat-item" *ngFor="let chat of $chats | async">
+
+                <button mat-raised-button class="chat-button" (click)="changeChat(chat)">
+                    <div class="button-content">
+
+                        <span class="button-text">{{chat.name}}</span>
+                        <button mat-button class="delete-button" (click)="deleteChat($event, chat)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </button>
+            </div>
+
+        </div>
+
+    </mat-drawer>
+
+    <mat-drawer-content>
+        <div class="message-list">
+
+            <div (click)="drawer.open()" *ngIf="!drawer.opened">
+                <button mat-raised-button>
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </div>
+            <div class="placeholder" *ngIf="!chat?.length">
+                <div class="placeholder-text">
+                    <span>ChatGPT - Clone</span>
+
+                    <img src="assets/images/lion-GPT.png" alt="My Image" class="app-image">
+                </div>
+            </div>
+            <div *ngFor="let chatItem of chat">
+                <div *ngIf="chatItem.role === 'user'">
+                    <div class="message-container user-message">
+
+                        <div class="message-text">
+                            {{ chatItem.content }}
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="chatItem.role === 'assistant'">
+                    <div class="message-container bot-message">
+                        <div class="message-text">
+                            {{ chatItem.content }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="message-input-container">
+
+            <mat-form-field class="message-input" appearance="outline">
+                <input matInput type="text" [(ngModel)]="inputValue" placeholder="Send a massage."
+                    (keydown.enter)="sendMessage()">
+
+                <button matSuffix mat-icon-button aria-label="Clear" (click)="sendMessage()"
+                    *ngIf="!isLoading; else loader;">
+                    <mat-icon>send</mat-icon>
+                </button>
+
+                <ng-template #loader>
+                    <app-chat-loader matSuffix></app-chat-loader>
+                </ng-template>
+
+            </mat-form-field>
+        </div>
+
+    </mat-drawer-content>
+</mat-drawer-container>
