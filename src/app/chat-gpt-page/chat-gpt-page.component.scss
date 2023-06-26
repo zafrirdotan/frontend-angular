@@ -2,7 +2,7 @@
     height: calc(100vh - 64px);
 }
 
-.message-list {
+.drawer-concent {
     height: calc(100vh - 64px - 103px);
     overflow-y: scroll;
     overflow-x: hidden;
@@ -25,10 +25,35 @@
 }
 
 .message-container {
-    width: 100%;
-    padding: 10px;
-    display: flex;
-    align-items: center;
+    margin: auto;
+    padding: 1rem;
+
+    .message {
+        width: 48rem;
+        display: flex;
+        margin: auto;
+
+        .avatar {
+            width: 1.7rem;
+            height: 1.4rem;
+            color: white;
+            padding: 0.9rem 0.7rem;
+
+        }
+
+        .gpt-avatar {
+            background: #4050b5;
+        }
+
+        .you-avatar {
+            background: #ff4081;
+        }
+
+        .message-text {
+            margin: 1rem;
+            width: 50vw;
+        }
+    }
 }
 
 .bot-message {
@@ -36,10 +61,7 @@
 
 }
 
-.message-text {
-    margin: auto;
-    width: 50%;
-}
+
 
 .message-input-container {
 

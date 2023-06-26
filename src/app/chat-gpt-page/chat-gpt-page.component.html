@@ -29,7 +29,7 @@
     </mat-drawer>
 
     <mat-drawer-content>
-        <div class="message-list">
+        <div class="drawer-concent">
 
             <div (click)="drawer.open()" *ngIf="!drawer.opened">
                 <button mat-raised-button>
@@ -43,20 +43,26 @@
                     <img src="assets/images/lion-GPT.png" alt="My Image" class="app-image">
                 </div>
             </div>
-            <div *ngFor="let chatItem of chat">
-                <div *ngIf="chatItem.role === 'user'">
-                    <div class="message-container user-message">
 
-                        <div class="message-text">
-                            {{ chatItem.content }}
-                        </div>
+            <div *ngFor="let chatItem of chat" class="message-container"
+                [ngClass]="{'bot-message': chatItem.role === 'assistant'}">
+
+
+                <div *ngIf=" chatItem.role==='user'" class="message user-message">
+                    <div class="avatar you-avatar">
+                        YOU
+                    </div>
+                    <div class="message-text">
+                        {{ chatItem.content }}
                     </div>
                 </div>
-                <div *ngIf="chatItem.role === 'assistant'">
-                    <div class="message-container bot-message">
-                        <div class="message-text">
-                            {{ chatItem.content }}
-                        </div>
+
+                <div *ngIf="chatItem.role === 'assistant'" class="message bot-message">
+                    <div class="avatar gpt-avatar">
+                        GPT
+                    </div>
+                    <div class="message-text">
+                        {{ chatItem.content }}
                     </div>
                 </div>
             </div>

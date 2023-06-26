@@ -52,7 +52,7 @@ export class ChatGptPageComponent {
   }
 
   sendMessage() {
-    if (this.inputValue === '') {
+    if (this.inputValue === '' || this.isLoading) {
       return;
     }
     this.isLoading = true;
