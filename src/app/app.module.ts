@@ -5,9 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { ChatGptPageComponent } from './chat-gpt-page/chat-gpt-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatInputModule } from '@angular/material/input';
+import { ChatGptStreamingPageComponent } from './chat-gpt-steaming-page/chat-gpt-page.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { MatInputModule } from '@angular/material/input';
     BrowserAnimationsModule,
     MatToolbarModule,
     MatInputModule,
-    ChatGptPageComponent
+    ChatGptStreamingPageComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

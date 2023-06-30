@@ -3,26 +3,33 @@
     <mat-drawer #drawer class="example-sidenav" mode="side" opened="true">
         <div class="close-button-container">
             <button mat-button class="new-button" (click)="createNewChat()">
-                <mat-icon>new</mat-icon>
+                <mat-icon>add</mat-icon>
                 <span>New Chat</span>
             </button>
             <button mat-raised-button class="close-button" (click)="drawer.close()">
                 <mat-icon>menu</mat-icon>
             </button>
         </div>
+
         <div class="chat-button-container">
-            <div class="chat-item" *ngFor="let chat of $chats | async">
 
-                <button mat-raised-button class="chat-button" (click)="changeChat(chat)">
-                    <div class="button-content">
+            <ng-container>
+                <div class="chat-item" *ngFor="let chat of chatsList ">
 
-                        <span class="button-text">{{chat.name}}</span>
-                        <button mat-button class="delete-button" (click)="deleteChat($event, chat)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </div>
-                </button>
-            </div>
+                    <button mat-raised-button class="chat-button" (click)="changeChat(chat)">
+                        <div class="button-content">
+
+                            <span class="button-text">
+                                {{chat.id !== selectedChatId || !isLoadingChatName? chat.name: newChatName}}
+                            </span>
+                            <button mat-button class="delete-button" (click)="deleteChat($event, chat)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </button>
+                </div>
+            </ng-container>
+
 
         </div>
 
@@ -66,6 +73,18 @@
                     </div>
                 </div>
             </div>
+            <div *ngIf="this.isLoadingResponseMessage" class="message-container">
+
+                <div class="message bot-message">
+                    <div class="avatar gpt-avatar">
+                        GPT
+                    </div>
+                    <div class="message-text">
+                        {{lastMessage}}
+                    </div>
+                </div>
+
+            </div>
         </div>
         <div class="message-input-container">
 
@@ -74,7 +93,7 @@
                     (keydown.enter)="sendMessage()">
 
                 <button matSuffix mat-icon-button aria-label="Clear" (click)="sendMessage()"
-                    *ngIf="!isLoading; else loader;">
+                    *ngIf="!isLoadingResponseMessage; else loader;">
                     <mat-icon>send</mat-icon>
                 </button>
 

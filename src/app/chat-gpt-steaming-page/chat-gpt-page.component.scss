@@ -86,7 +86,7 @@
 
 .chat-button-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     width: fit-content;
 
     .chat-button {
@@ -97,7 +97,7 @@
             flex-direction: row;
             align-items: center;
             justify-content: space-between;
-            width: 16rem;
+            width: 18rem;
 
             .button-text {
                 white-space: nowrap;
