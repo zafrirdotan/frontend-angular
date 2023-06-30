@@ -14,7 +14,7 @@ import { MatListModule } from '@angular/material/list';
 import { v4 as uuidv4 } from 'uuid';
 
 @Component({
-  selector: 'app-chat-streaming-gpt-page',
+  selector: 'app-chat-gpt-page',
   templateUrl: './chat-gpt-page.component.html',
   styleUrls: ['./chat-gpt-page.component.scss'],
   standalone: true,
@@ -33,7 +33,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 })
-export class ChatGptStreamingPageComponent {
+export class ChatGptPageComponent {
   public inputValue: string = '';
 
   public chat: ChatMassageItem[] = [];
@@ -45,8 +45,6 @@ export class ChatGptStreamingPageComponent {
 
   public isLoadingChatName: boolean = false;
   public isLoadingResponseMessage: boolean = false;
-
-  // public $chats: Observable<ChatDetails[]> = this.chatGptService.$chats;
 
   public selectedChatId!: string;
 
@@ -94,7 +92,6 @@ export class ChatGptStreamingPageComponent {
         this.chatGptService.setChat(this.selectedChatId, this.chat);
         this.lastMessage = ''
 
-        console.log('lastMessage', this.lastMessage);
 
       }
     });
@@ -108,7 +105,6 @@ export class ChatGptStreamingPageComponent {
       next: (token: string) => {
 
         this.newChatName += token;
-        console.log('this.newChatName', this.newChatName);
 
       }, error: (err) => {
         this.isLoadingChatName = false;

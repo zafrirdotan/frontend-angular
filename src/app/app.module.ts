@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { HttpClientModule } from '@angular/common/http';
 import { MatInputModule } from '@angular/material/input';
-import { ChatGptStreamingPageComponent } from './chat-gpt-steaming-page/chat-gpt-page.component';
+import { ChatGptPageComponent } from './chat-gpt-steaming-page/chat-gpt-page.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { ChatGptStreamingPageComponent } from './chat-gpt-steaming-page/chat-gpt
     BrowserAnimationsModule,
     MatToolbarModule,
     MatInputModule,
-    ChatGptStreamingPageComponent
+    ChatGptPageComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

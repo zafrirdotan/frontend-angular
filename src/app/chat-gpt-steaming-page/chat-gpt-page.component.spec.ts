@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ChatGptPageComponent } from './chat-gpt-page.component';
+
 
 describe('ChatGptPageComponent', () => {
   let component: ChatGptPageComponent;
