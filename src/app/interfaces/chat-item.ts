@@ -3,6 +3,12 @@ export interface ChatMassageItem {
     role: 'user' | 'assistant';
 }
 
+export interface massageContentItem {
+    content: string;
+    type: 'text' | 'code';
+    codeType?: 'javascript' | 'typescript' | 'python' | 'html' | 'css' | 'bash' | 'json' | 'sql' | 'markdown' | 'yaml' | 'xml' | 'java' | 'csharp' | 'cpp' | 'go' | 'ruby' | 'php' | 'perl' | 'swift' | 'kotlin' | 'rust' | 'scala' | 'groovy' | 'powershell' | 'docker' | 'nginx' | 'apache' | 'yaml' | 'ini' | 'diff' | 'http' | 'cs' | 'cpp';
+}
+
 export interface ChatDetails {
     name: string;
     id: string;

@@ -1,5 +1,5 @@
-import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule, NgFor, NgIf, ViewportScroller } from '@angular/common';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -12,6 +12,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { v4 as uuidv4 } from 'uuid';
+import { HighlightCodeDirective } from '../directives/highlight-code.directive';
+import { AssistantMessageComponent } from '../components/assistant-message/assistant-message.component';
 
 @Component({
   selector: 'app-chat-gpt-page',
@@ -29,11 +31,13 @@ import { v4 as uuidv4 } from 'uuid';
       ChatLoaderComponent,
       MatToolbarModule,
       MatSidenavModule,
-      MatListModule, CommonModule],
-
-
+      MatListModule, CommonModule, HighlightCodeDirective, AssistantMessageComponent],
 })
+
+
 export class ChatGptPageComponent {
+  @ViewChild('scrollTarget', { static: false }) scrollTarget!: ElementRef;
+
   public inputValue: string = '';
 
   public chat: ChatMassageItem[] = [];
@@ -46,7 +50,7 @@ export class ChatGptPageComponent {
   public isLoadingChatName: boolean = false;
   public isLoadingResponseMessage: boolean = false;
 
-  public selectedChatId!: string;
+  public selectedChatId!: string | undefined;
 
   constructor(private chatGptService: ChatGptService) { }
 
@@ -55,10 +59,13 @@ export class ChatGptPageComponent {
     this.chatsList = this.chatGptService.getChats() || [];
     if (this.selectedChatId) {
       this.chat = this.chatGptService.getChat(this.selectedChatId);
+
     }
     if (!this.selectedChatId) {
       this.createNewChat()
     }
+
+
   }
 
   sendMessage() {
@@ -77,22 +84,25 @@ export class ChatGptPageComponent {
     this.chat.push({ content: this.inputValue, role: 'user' });
     this.isLoadingResponseMessage = true;
     // temp code
-    this.chatGptService.getChatCompletionStreaming(this.inputValue, this.selectedChatId).subscribe({
+    this.chatGptService.getChatCompletionStreaming(this.inputValue, this.selectedChatId!).subscribe({
       next: (tokens) => {
+        // this.addTokenToLastMessage(tokens);
         this.lastMessage += tokens;
         this.inputValue = '';
+        this.scrollToLastElement()
+
       }, error: (err) => {
         this.isLoadingResponseMessage = false;
         console.log('error', err);
 
       }, complete: () => {
+
+
         this.isLoadingResponseMessage = false;
         this.chat.push({ content: this.lastMessage, role: 'assistant' });
 
-        this.chatGptService.setChat(this.selectedChatId, this.chat);
+        this.chatGptService.setChat(this.selectedChatId!, this.chat);
         this.lastMessage = ''
-
-
       }
     });
 
@@ -100,6 +110,13 @@ export class ChatGptPageComponent {
   }
 
   getChatName() {
+
+    if (this.inputValue.length < 20) {
+      this.newChatName = this.inputValue;
+      this.updateChatName();
+      return;
+    }
+
     this.isLoadingChatName = true;
     this.chatGptService.getChatSummery(this.inputValue).subscribe({
       next: (token: string) => {
@@ -123,7 +140,11 @@ export class ChatGptPageComponent {
   }
 
   updateChatName() {
-    this.chatsList.find(chat => chat.id === this.selectedChatId)!.name = this.newChatName;
+    const chat = this.chatsList.find(chat => chat.id === this.selectedChatId);
+    if (!chat) {
+      return;
+    }
+    chat.name = this.newChatName;
     this.chatGptService.setChats(this.chatsList);
   }
 
@@ -146,10 +167,17 @@ export class ChatGptPageComponent {
     ev.stopPropagation();
     if (chat.id === this.selectedChatId) {
       this.chat = [];
+      this.selectedChatId = undefined;
 
     }
-    this.chatsList = this.chatsList.filter(chat => chat.id !== this.selectedChatId);
+    this.chatsList = this.chatsList.filter(({ id }) => id !== chat.id);
     this.chatGptService.setChats(this.chatsList);
+    this.chatGptService.deleteChat(chat.id);
+  }
+
+  scrollToLastElement() {
+    const element = this.scrollTarget.nativeElement;
+    element.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
   }
 
 }

@@ -1,0 +1,27 @@
+.code-highlight {
+    width: 100%;
+}
+
+.code-container {
+    display: flex;
+    flex-direction: column;
+
+    .code-header {
+        background-color: #343541;
+        color: rgb(217, 217, 227);
+        padding: 0.5rem;
+        border-radius: 5px 5px 0 0;
+    }
+
+    .code-content {
+
+        background-color: #282936;
+        color: rgb(217, 217, 227);
+        display: flex;
+        overflow-x: auto;
+    }
+}
+
+.\!whitespace-pre {
+    white-space: pre !important;
+}

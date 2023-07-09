@@ -1,0 +1,18 @@
+<div *ngFor="let partialMessage of formattedMessage" class="message-container">
+
+    <div *ngIf="partialMessage.type === 'text'" [innerHTML]="partialMessage.content">
+
+    </div>
+    <pre *ngIf="partialMessage.type === 'code'">
+            <div class="code-container">
+
+                <div class="code-header">{{partialMessage.codeType}}</div>
+                
+                <div class="code-content">
+
+                    <code highlight class="!whitespace-pre hljs language-typescript" >{{partialMessage.content}}</code>
+                </div>
+            </div>
+    </pre>
+
+</div>

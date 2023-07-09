@@ -18,7 +18,9 @@
 
                     <button mat-raised-button class="chat-button" (click)="changeChat(chat)">
                         <div class="button-content">
-
+                            <mat-icon>
+                                chat_bubble_outline
+                            </mat-icon>
                             <span class="button-text">
                                 {{chat.id !== selectedChatId || !isLoadingChatName? chat.name: newChatName}}
                             </span>
@@ -59,7 +61,7 @@
                     <div class="avatar you-avatar">
                         YOU
                     </div>
-                    <div class="message-text">
+                    <div class="message-content">
                         {{ chatItem.content }}
                     </div>
                 </div>
@@ -68,23 +70,20 @@
                     <div class="avatar gpt-avatar">
                         GPT
                     </div>
-                    <div class="message-text">
-                        {{ chatItem.content }}
-                    </div>
+                    <app-assistant-message class="message-content" [message]="chatItem.content"></app-assistant-message>
                 </div>
             </div>
-            <div *ngIf="this.isLoadingResponseMessage" class="message-container">
+            <div *ngIf="this.isLoadingResponseMessage" class="message-container" #scrollTarget>
 
                 <div class="message bot-message">
                     <div class="avatar gpt-avatar">
                         GPT
                     </div>
-                    <div class="message-text">
-                        {{lastMessage}}
-                    </div>
+                    <app-assistant-message class="message-content" [message]="lastMessage"></app-assistant-message>
                 </div>
 
             </div>
+
         </div>
         <div class="message-input-container">
 

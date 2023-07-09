@@ -33,6 +33,9 @@ export class ChatGptService {
   setChat(chatId: string, messages: ChatMassageItem[]): void {
     this.localStorageService.setItem(chatId, messages);
   }
+  deleteChat(chatId: string): void {
+    this.localStorageService.removeItem(chatId);
+  }
 
   getChatSummery(prompt: string): Observable<string> {
     return this.eventService.postSSECompletion(this.SERVER_URL + '/question-summery', { prompt: prompt });
