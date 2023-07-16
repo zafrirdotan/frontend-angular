@@ -91,6 +91,7 @@
     flex-direction: column-reverse;
     width: fit-content;
 
+
     .chat-button {
         width: 100%;
 
@@ -100,6 +101,22 @@
             align-items: center;
             justify-content: space-between;
             width: 18rem;
+
+            .chat-icon {
+                width: 0.5rem;
+                height: 1rem;
+                padding-right: 1.5rem;
+                font-size: 1rem;
+                color: #828282
+            }
+
+            .delete-icon {
+                width: 0.5rem;
+                height: 1rem;
+                padding-right: 1.5rem;
+                font-size: 1rem;
+                color: #828282
+            }
 
             .button-text {
                 white-space: nowrap;

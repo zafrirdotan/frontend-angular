@@ -18,14 +18,14 @@
 
                     <button mat-raised-button class="chat-button" (click)="changeChat(chat)">
                         <div class="button-content">
-                            <mat-icon>
+                            <mat-icon class="chat-icon">
                                 chat_bubble_outline
                             </mat-icon>
                             <span class="button-text">
                                 {{chat.id !== selectedChatId || !isLoadingChatName? chat.name: newChatName}}
                             </span>
                             <button mat-button class="delete-button" (click)="deleteChat($event, chat)">
-                                <mat-icon>delete</mat-icon>
+                                <mat-icon class="delete-icon">delete</mat-icon>
                             </button>
                         </div>
                     </button>
