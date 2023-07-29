@@ -16,6 +16,9 @@ import { HighlightCodeDirective } from '../directives/highlight-code.directive';
 import { AssistantMessageComponent } from '../components/assistant-message/assistant-message.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { LoginFormComponent } from '../login/login-form/login-form.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-chat-gpt-page',
@@ -33,7 +36,12 @@ import { AuthService } from '../auth/auth.service';
       ChatLoaderComponent,
       MatToolbarModule,
       MatSidenavModule,
-      MatListModule, CommonModule, HighlightCodeDirective, AssistantMessageComponent],
+      MatListModule,
+      CommonModule,
+      HighlightCodeDirective,
+      AssistantMessageComponent,
+      MatDialogModule,
+      MatSnackBarModule],
 })
 
 
@@ -60,7 +68,9 @@ export class ChatGptPageComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private router: Router,
-    private _location: Location) { }
+    private _location: Location,
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
@@ -75,6 +85,7 @@ export class ChatGptPageComponent {
               this.getTempUserCookie();
 
             }
+
             console.log('isLoggedIn', isLoggedIn);
           },
           error: (error) => {
@@ -113,18 +124,27 @@ export class ChatGptPageComponent {
       this.getChatName();
     }
 
-    this.chat.push({ content: this.inputValue, role: 'user' });
     this.isLoadingResponseMessage = true;
+
     // temp code
     this.chatGptService.getChatCompletionStreaming(this.inputValue, this.selectedChatId!).subscribe({
       next: (tokens) => {
-        // this.addTokenToLastMessage(tokens);
+        if (!this.lastMessage) {
+          // add the user message only after the first response
+          this.chat.push({ content: this.inputValue, role: 'user' });
+        }
+
         this.lastMessage += tokens;
         this.inputValue = '';
         this.scrollToLastElement()
 
       }, error: (err) => {
         this.isLoadingResponseMessage = false;
+        console.log('error', err);
+
+        if (err.statusCode === 401) {
+          this.openLoginDialog();
+        }
 
       }, complete: () => {
 
@@ -213,9 +233,8 @@ export class ChatGptPageComponent {
 
   authenticateWithMagicLink() {
     this.authService.loginWithMagicLink(this.token!).subscribe({
-      next: (res) => {
-        console.log('login success');
-        console.log('user', res);
+      next: (user) => {
+        this.openSnackBar(`Hi ${user.name}, you logged in successfully!!!`);
       },
       error: (error) => {
         this.router.navigateByUrl('/chat');
@@ -236,5 +255,15 @@ export class ChatGptPageComponent {
     });
   }
 
+  openLoginDialog() {
+    this.dialog.open(LoginFormComponent, {
+    });
+  }
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message, 'close', {
+      duration: 2000,
+    });
+  }
 
 }
