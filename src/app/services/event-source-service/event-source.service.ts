@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject, of } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventSourceService {
-
-  private eventSource!: EventSource;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -16,13 +14,24 @@ export class EventSourceService {
 
     fetch(url, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data)
     })
       .then(response => {
-        if (!response.body) return;
+        if (!response.ok) {
+          return response.text().then(err => {
+            subject.error('Error: ' + err);
+          });
+
+        }
+
+        if (!response.body) {
+          return subject.error('No response body');
+        }
+
         const reader = response.body
           .pipeThrough(new TextDecoderStream())
           .getReader();
@@ -30,6 +39,7 @@ export class EventSourceService {
         return this.readAllChunks(reader, subject);
       })
       .catch(err => {
+
         subject.error(err);
       });
 

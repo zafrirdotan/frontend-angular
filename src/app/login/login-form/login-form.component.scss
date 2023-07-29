@@ -1,0 +1,47 @@
+.login-card {
+    width: 30rem;
+    padding: 4rem;
+    padding-top: 2rem;
+    background: #FCFCFC;
+
+    .login-header {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        display: block;
+        padding: 0;
+
+        .app-image {
+            width: 8rem;
+            margin: auto;
+        }
+    }
+
+    .login-content {
+        padding: 1rem;
+    }
+
+    .check-email-message {
+        text-align: center;
+    }
+
+    .login-action {
+        margin-top: 1rem;
+        text-align: center;
+        display: block;
+
+        .login-button {
+            width: 100%;
+        }
+
+        .sign-in-button {
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+    }
+}
+
+.form-input {
+    width: 100%;
+}

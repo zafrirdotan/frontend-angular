@@ -1,4 +1,4 @@
-import { CommonModule, NgFor, NgIf, ViewportScroller } from '@angular/common';
+import { CommonModule, NgFor, NgIf, Location } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,6 +14,8 @@ import { MatListModule } from '@angular/material/list';
 import { v4 as uuidv4 } from 'uuid';
 import { HighlightCodeDirective } from '../directives/highlight-code.directive';
 import { AssistantMessageComponent } from '../components/assistant-message/assistant-message.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-chat-gpt-page',
@@ -51,10 +53,41 @@ export class ChatGptPageComponent {
   public isLoadingResponseMessage: boolean = false;
 
   public selectedChatId!: string | undefined;
+  private token: string | null = null;
 
-  constructor(private chatGptService: ChatGptService) { }
+  constructor(
+    private chatGptService: ChatGptService,
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private router: Router,
+    private _location: Location) { }
 
   ngOnInit(): void {
+    this.route.queryParamMap.subscribe(params => {
+      this.token = params.get('token');
+      if (this.token) {
+        this.authenticateWithMagicLink();
+      } else {
+
+        this.authService.checkIfUserLoggedIn().subscribe({
+          next: (isLoggedIn) => {
+            if (!isLoggedIn) {
+              this.getTempUserCookie();
+
+            }
+            console.log('isLoggedIn', isLoggedIn);
+          },
+          error: (error) => {
+            console.log('error', error);
+            this.getTempUserCookie();
+          }
+        })
+
+      }
+
+      this._location.go('/chat');
+    });
+
     this.selectedChatId = this.chatGptService.gatSelectedChat();
     this.chatsList = this.chatGptService.getChats() || [];
     if (this.selectedChatId) {
@@ -64,7 +97,6 @@ export class ChatGptPageComponent {
     if (!this.selectedChatId) {
       this.createNewChat()
     }
-
 
   }
 
@@ -93,16 +125,14 @@ export class ChatGptPageComponent {
 
       }, error: (err) => {
         this.isLoadingResponseMessage = false;
-        console.log('error', err);
 
       }, complete: () => {
-
 
         this.isLoadingResponseMessage = false;
         this.chat.push({ content: this.lastMessage, role: 'assistant' });
 
         this.chatGptService.setChat(this.selectedChatId!, this.chat);
-        this.lastMessage = ''
+        this.lastMessage = '';
       }
     });
 
@@ -179,5 +209,32 @@ export class ChatGptPageComponent {
     const element = this.scrollTarget.nativeElement;
     element.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
   }
+
+
+  authenticateWithMagicLink() {
+    this.authService.loginWithMagicLink(this.token!).subscribe({
+      next: (res) => {
+        console.log('login success');
+        console.log('user', res);
+      },
+      error: (error) => {
+        this.router.navigateByUrl('/chat');
+        this.getTempUserCookie();
+      }
+    });
+  }
+
+  getTempUserCookie() {
+    this.authService.getTempUserCookie().subscribe({
+      next: (res) => {
+        console.log('working with temp user');
+      },
+      error: (error) => {
+        this.router.navigateByUrl('/chat');
+        console.log('login error', error);
+      }
+    });
+  }
+
 
 }

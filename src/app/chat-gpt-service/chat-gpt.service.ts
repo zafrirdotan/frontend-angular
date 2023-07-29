@@ -22,7 +22,7 @@ export class ChatGptService {
     const messages = this.localStorageService.getItem(chatId) || [];
     messages.push(prompt);
 
-    return this.eventService.postSSECompletion(this.SERVER_URL + '/streaming', messages)
+    return this.eventService.postSSECompletion(this.SERVER_URL + '/streaming', { messages, tempUserId: '123' })
 
   }
 

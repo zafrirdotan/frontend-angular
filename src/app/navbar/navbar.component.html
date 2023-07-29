@@ -1,0 +1,17 @@
+<mat-toolbar color="primary" *ngIf="showToolbar">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>Chat-GPT Clone</span>
+    <span class="navbar-spacer"></span>
+    <button mat-icon-button class="example-icon favorite-icon" aria-label="Like">
+        <mat-icon>favorite</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="share via">
+        <mat-icon>share</mat-icon>
+    </button>
+
+    <button mat-icon-button class="example-icon" aria-label="login" (click)="goToLoginPage()">
+        <mat-icon>login</mat-icon>
+    </button>
+</mat-toolbar>
