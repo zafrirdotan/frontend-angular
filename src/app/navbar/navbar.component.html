@@ -11,7 +11,26 @@
         <mat-icon>share</mat-icon>
     </button>
 
-    <button mat-icon-button class="example-icon" aria-label="login" (click)="goToLoginPage()">
+
+    <button *ngIf="!user" mat-icon-button aria-label="login" matTooltip="login to get full excess"
+        (click)="goToLoginPage()">
         <mat-icon>login</mat-icon>
     </button>
+
+
+    <button *ngIf="user" mat-icon-button [matMenuTriggerFor]="userMenu" class="user-avatar">
+        {{ user!.name!.charAt(0) }}
+    </button>
+
+    <mat-menu #userMenu="matMenu">
+        <!-- <button mat-menu-item>
+            <mat-icon>settings_applications</mat-icon>
+            <span>Settings</span>
+        </button> -->
+        <button mat-menu-item (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Logout</span>
+        </button>
+    </mat-menu>
+
 </mat-toolbar>

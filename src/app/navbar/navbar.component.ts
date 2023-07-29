@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
+import { User } from '../interfaces/user';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-navbar',
@@ -9,12 +12,17 @@ import { Subscription } from 'rxjs';
 })
 export class NavbarComponent {
 
+
   showToolbar: boolean = true;
 
   private routeSubscription: Subscription | undefined;
-  constructor(private router: Router) { }
+  private userSub: Subscription | undefined;
+
+  public user: User | null = null;
+  constructor(private router: Router, private authService: AuthService, private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
+    // Remove the toolbar if the user is on the login page
     this.routeSubscription = this.router.events.subscribe((event) => {
 
 
@@ -24,18 +32,36 @@ export class NavbarComponent {
       }
 
     });
+
+    this.userSub = this.authService.currentUser$.subscribe((user) => {
+      console.log('user', user);
+
+      this.user = user;
+    });
   }
 
   ngOnDestroy() {
-    // It's important to unsubscribe your subscriptions when the component is destroyed
-    if (this.routeSubscription) {
-      this.routeSubscription.unsubscribe();
-    }
+    this.routeSubscription?.unsubscribe();
+    this.userSub?.unsubscribe();
   }
 
 
   goToLoginPage() {
 
     this.router.navigateByUrl('/login');
+  }
+
+  logout() {
+    this.authService.logout().subscribe(() => {
+      this.openSnackBar('Logged out successfully');
+      // this.router.navigateByUrl('/login');
+
+    });
+  }
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message, 'close', {
+      duration: 2000,
+    });
   }
 }

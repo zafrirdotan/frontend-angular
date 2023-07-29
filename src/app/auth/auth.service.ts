@@ -8,7 +8,9 @@ import { LocalStorageService } from '../services/local-storage-service/local-sto
   providedIn: 'root'
 })
 export class AuthService {
-  private currentUser = new BehaviorSubject<User>(this.localStorageService.getItem('user'));
+
+  private currentUser = new BehaviorSubject<User | null>(this.localStorageService.getItem('user'));
+  public currentUser$ = this.currentUser.asObservable();
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService,) { }
 
@@ -39,6 +41,8 @@ export class AuthService {
       }
 
       if (res.isLoggedIn === false) {
+        this.localStorageService.removeItem('user');
+        this.currentUser.next(null);
         return false;
       }
 
@@ -48,4 +52,12 @@ export class AuthService {
     }));
   }
 
+  logout() {
+    return this.http.get('http://localhost:3000/auth/logout', { withCredentials: true }).pipe(
+      tap(() => {
+        this.localStorageService.removeItem('user');
+        this.currentUser.next(null);
+      })
+    )
+  }
 }

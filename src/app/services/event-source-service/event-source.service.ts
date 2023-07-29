@@ -23,7 +23,7 @@ export class EventSourceService {
       .then(response => {
         if (!response.ok) {
           return response.text().then(err => {
-            subject.error('Error: ' + err);
+            subject.error(JSON.parse(err));
           });
 
         }

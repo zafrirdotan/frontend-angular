@@ -5,8 +5,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
-
-
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
+    MatTooltipModule,
+    BrowserAnimationsModule,
+    MatMenuModule,
+    MatSnackBarModule
   ],
   exports: [
     NavbarComponent
