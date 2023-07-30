@@ -6,6 +6,7 @@ import { ChatGptPageComponent } from './chat-gpt-steaming-page/chat-gpt-page.com
 const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
   { path: 'chat/login/callback', component: ChatGptPageComponent },
+  { path: 'chat/signup/callback', component: ChatGptPageComponent },
   {
     path: 'chat', component: ChatGptPageComponent,
     //canActivate: [AuthGuard] 

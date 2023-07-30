@@ -19,6 +19,7 @@ import { AuthService } from '../auth/auth.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LoginFormComponent } from '../login/login-form/login-form.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { SignupFormComponent } from '../login/signup-form/signup-form.component';
 
 @Component({
   selector: 'app-chat-gpt-page',
@@ -61,7 +62,7 @@ export class ChatGptPageComponent {
   public isLoadingResponseMessage: boolean = false;
 
   public selectedChatId!: string | undefined;
-  private token: string | null = null;
+  private accessToken: string | null = null;
 
   constructor(
     private chatGptService: ChatGptService,
@@ -73,10 +74,17 @@ export class ChatGptPageComponent {
     private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
+    console.log(this.router.url);
     this.route.queryParamMap.subscribe(params => {
-      this.token = params.get('token');
-      if (this.token) {
-        this.authenticateWithMagicLink();
+      this.accessToken = params.get('token');
+
+      if (this.accessToken) {
+        if (this.router.url.includes('login')) {
+          this.authenticateWithMagicLink();
+        } else if (this.router.url.includes('signup')) {
+          this.openSignUpDialog();
+        }
+
       } else {
 
         this.authService.checkIfUserLoggedIn().subscribe({
@@ -96,7 +104,7 @@ export class ChatGptPageComponent {
 
       }
 
-      this._location.go('/chat');
+      // this._location.go('/chat');
     });
 
     this.selectedChatId = this.chatGptService.gatSelectedChat();
@@ -232,7 +240,7 @@ export class ChatGptPageComponent {
 
 
   authenticateWithMagicLink() {
-    this.authService.loginWithMagicLink(this.token!).subscribe({
+    this.authService.loginWithMagicLink(this.accessToken!).subscribe({
       next: (user) => {
         this.openSnackBar(`Hi ${user.name}, you logged in successfully!!!`);
       },
@@ -257,7 +265,18 @@ export class ChatGptPageComponent {
 
   openLoginDialog() {
     this.dialog.open(LoginFormComponent, {
+      data: { isLogin: true }
     });
+  }
+
+  openSignUpDialog() {
+    this.dialog.open(SignupFormComponent, {
+      data: { token: this.accessToken }
+    }).afterClosed().subscribe((isSuccess) => {
+      if (isSuccess) {
+        this.openSnackBar(`Thank you for completing the registration process! You are now logged in!`);
+      }
+    })
   }
 
   openSnackBar(message: string) {

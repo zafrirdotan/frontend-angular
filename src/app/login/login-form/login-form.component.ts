@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
@@ -10,37 +11,63 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class LoginFormComponent {
 
   public showForm: boolean = true;
-  public showErrorMessage: boolean = false;
+  public errorMessage: string | undefined;
   public email = new FormControl('', [Validators.email]);
-  public isLogin: boolean = true;
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    @Inject(MAT_DIALOG_DATA) public data: { isLogin: boolean }
+  ) {
     this.email.valueChanges.subscribe(() => {
-
-      this.showErrorMessage = false;
+      this.errorMessage = undefined;
     })
   }
 
+  onButtonClick() {
+    if (this.data.isLogin) {
+      this.loginWithEmail();
+    } else {
+      this.signupWithMagicLink();
+    }
+  }
 
   loginWithEmail() {
     if (this.email.invalid || !this.email.value) {
       return;
     }
-    this.authService.sendMagicLinkEmail(this.email.value).subscribe({
+
+    this.authService.sendMagicLoginEmail(this.email.value).subscribe({
       next: () => {
         this.showForm = false;
       },
       error: (error) => {
 
-        this.showErrorMessage = true;
+        this.errorMessage = 'This email is not registered in this site';
       }
     });
-    console.log(this.email.value);
   }
 
 
-  signIn() {
-    throw new Error('Method not implemented.');
+  signupWithMagicLink() {
+    if (this.email.invalid || !this.email.value) {
+      return;
+    }
+    this.authService.sendMagicSignupEmail(this.email.value).subscribe({
+      next: () => {
+        this.showForm = false;
+      },
+      error: (error) => {
+        console.log(error);
+
+        if (error?.error.message === 'User already exists') {
+          this.errorMessage = 'User already exists'
+          return;
+        }
+
+        this.errorMessage = 'Something went wrong, please try again later';
+
+      }
+    });
   }
 
 }

@@ -11,15 +11,18 @@
         <mat-icon>share</mat-icon>
     </button>
 
+    <button *ngIf="!user" mat-button class="sign-up-button" aria-label="login" matTooltip="login to get full excess"
+        (click)="openSignupDialog()">
+        Sign up
+    </button>
 
-    <button *ngIf="!user" mat-icon-button aria-label="login" matTooltip="login to get full excess"
-        (click)="goToLoginPage()">
-        <mat-icon>login</mat-icon>
+    <button *ngIf="!user" mat-button aria-label="login" matTooltip="login to get full excess" (click)="goToLoginPage()">
+        <mat-icon>login</mat-icon> Login
     </button>
 
 
-    <button *ngIf="user" mat-icon-button [matMenuTriggerFor]="userMenu" class="user-avatar">
-        {{ user!.name!.charAt(0) }}
+    <button *ngIf="user?.name" mat-icon-button [matMenuTriggerFor]="userMenu" class="user-avatar">
+        {{ user!.name.charAt(0) }}
     </button>
 
     <mat-menu #userMenu="matMenu">

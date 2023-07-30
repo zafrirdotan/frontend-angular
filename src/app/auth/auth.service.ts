@@ -14,7 +14,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, private localStorageService: LocalStorageService,) { }
 
-  sendMagicLinkEmail(email: string) {
+  sendMagicLoginEmail(email: string) {
     return this.http.post('http://localhost:3000/auth/login', { destination: email });
   }
 
@@ -25,6 +25,20 @@ export class AuthService {
         this.currentUser.next(user);
       }));
   }
+
+  sendMagicSignupEmail(email: string) {
+    return this.http.post('http://localhost:3000/auth/signup', { destination: email });
+  }
+
+  signupWithMagicLink(token: string, fullName: string): Observable<User> {
+    return this.http.post<User>('http://localhost:3000/auth/signup/callback?token=' + token, { fullName }, { withCredentials: true }).pipe(
+      tap((user: User) => {
+
+        this.localStorageService.setItem('user', user);
+        this.currentUser.next(user);
+      }));
+  }
+
 
   getTempUserCookie() {
     return this.http.get('http://localhost:3000/auth/temp-user', { withCredentials: true });

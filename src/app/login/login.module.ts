@@ -8,12 +8,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegistrationFormComponent } from './registration-form/registration-form.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { SignupFormComponent } from './signup-form/signup-form.component';
 
 @NgModule({
   declarations: [
     LoginFormComponent,
     LoginPageComponent,
     RegistrationFormComponent,
+    SignupFormComponent,
   ],
   imports: [
     CommonModule,
@@ -22,7 +25,8 @@ import { RegistrationFormComponent } from './registration-form/registration-form
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
   ],
 
 })

@@ -1,0 +1,31 @@
+<mat-card class="login-card">
+    <mat-card-header class="login-header">
+        <mat-card-title>
+            <img src="assets/images/lion-GPT.png" alt="My Image" class="app-image">
+
+            <h1>Finish your Signup</h1>
+        </mat-card-title>
+    </mat-card-header>
+    <ng-container>
+        <mat-card-content class="login-content">
+            <form>
+                <p for="email">Enter your full name to finish you signup process</p>
+
+                <mat-form-field class="form-input">
+                    <mat-label for="fullName">Full Name</mat-label>
+                    <input matInput [formControl]="fullName" placeholder="Full Name" type="text"
+                        (keyup.enter)="signupWithMagicLink()">
+
+                </mat-form-field>
+            </form>
+            <mat-error *ngIf="errorMessage">
+                {{errorMessage}}
+            </mat-error>
+        </mat-card-content>
+        <mat-card-actions class="login-action">
+            <button mat-raised-button color="primary" class="login-button" (click)="signupWithMagicLink()">
+                Finish Signup
+            </button>
+        </mat-card-actions>
+    </ng-container>
+</mat-card>

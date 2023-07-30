@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { User } from '../interfaces/user';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginFormComponent } from '../login/login-form/login-form.component';
 
 @Component({
   selector: 'app-navbar',
@@ -12,14 +14,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class NavbarComponent {
 
-
   showToolbar: boolean = true;
 
   private routeSubscription: Subscription | undefined;
   private userSub: Subscription | undefined;
 
   public user: User | null = null;
-  constructor(private router: Router, private authService: AuthService, private _snackBar: MatSnackBar) { }
+  constructor(private router: Router, private authService: AuthService, private _snackBar: MatSnackBar,
+    public dialog: MatDialog,
+  ) { }
 
   ngOnInit() {
     // Remove the toolbar if the user is on the login page
@@ -47,8 +50,7 @@ export class NavbarComponent {
 
 
   goToLoginPage() {
-
-    this.router.navigateByUrl('/login');
+    this.openLoginDialog();
   }
 
   logout() {
@@ -64,4 +66,17 @@ export class NavbarComponent {
       duration: 2000,
     });
   }
+
+  openSignupDialog() {
+    this.dialog.open(LoginFormComponent, {
+      data: { isLogin: false }
+    });
+  }
+
+  openLoginDialog() {
+    this.dialog.open(LoginFormComponent, {
+      data: { isLogin: true }
+    });
+  }
+
 }
