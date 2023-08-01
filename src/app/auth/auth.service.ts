@@ -15,11 +15,11 @@ export class AuthService {
   constructor(private http: HttpClient, private localStorageService: LocalStorageService,) { }
 
   sendMagicLoginEmail(email: string) {
-    return this.http.post('http://localhost:3000/auth/login', { destination: email });
+    return this.http.post('auth/login', { destination: email });
   }
 
   loginWithMagicLink(token: string): Observable<User> {
-    return this.http.get<User>('http://localhost:3000/auth/login/callback?token=' + token, { withCredentials: true }).pipe(
+    return this.http.get<User>('auth/login/callback?token=' + token, { withCredentials: true }).pipe(
       tap((user: User) => {
         this.localStorageService.setItem('user', user);
         this.currentUser.next(user);
@@ -27,11 +27,11 @@ export class AuthService {
   }
 
   sendMagicSignupEmail(email: string) {
-    return this.http.post('http://localhost:3000/auth/signup', { destination: email });
+    return this.http.post('auth/signup', { destination: email });
   }
 
   signupWithMagicLink(token: string, fullName: string): Observable<User> {
-    return this.http.post<User>('http://localhost:3000/auth/signup/callback?token=' + token, { fullName }, { withCredentials: true }).pipe(
+    return this.http.post<User>('auth/signup/callback?token=' + token, { fullName }, { withCredentials: true }).pipe(
       tap((user: User) => {
 
         this.localStorageService.setItem('user', user);
@@ -41,7 +41,7 @@ export class AuthService {
 
 
   getTempUserCookie() {
-    return this.http.get('http://localhost:3000/auth/temp-user', { withCredentials: true });
+    return this.http.get('auth/temp-user', { withCredentials: true });
   }
 
   checkIfUserLoggedIn() {
@@ -49,7 +49,7 @@ export class AuthService {
       return of(false)
     }
 
-    return this.http.get<User>('http://localhost:3000/auth/is-logged-in', { withCredentials: true }).pipe(map((res: any) => {
+    return this.http.get<User>('auth/is-logged-in', { withCredentials: true }).pipe(map((res: any) => {
       if (!res) {
         return false;
       }
@@ -67,7 +67,7 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.get('http://localhost:3000/auth/logout', { withCredentials: true }).pipe(
+    return this.http.get('auth/logout', { withCredentials: true }).pipe(
       tap(() => {
         this.localStorageService.removeItem('user');
         this.currentUser.next(null);

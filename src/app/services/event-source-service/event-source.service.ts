@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,9 @@ export class EventSourceService {
 
   public postSSECompletion(url: string, data: any): Observable<any> {
     const subject = new Subject<string>();
+    console.log('url', url);
 
-    fetch(url, {
+    fetch(environment.apiUrl + '/' + url, {
       method: "POST",
       credentials: "include",
       headers: {

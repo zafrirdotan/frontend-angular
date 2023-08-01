@@ -8,8 +8,7 @@ import { EventSourceService } from '../services/event-source-service/event-sourc
   providedIn: 'root'
 })
 export class ChatGptService {
-  private SERVER_URL = 'http://localhost:3000/conversation';
-
+  private baseUrl = 'conversation';
 
   constructor(private httpClient: HttpClient, private _zone: NgZone, private localStorageService: LocalStorageService, private eventService: EventSourceService) {
   }
@@ -22,7 +21,7 @@ export class ChatGptService {
     const messages = this.localStorageService.getItem(chatId) || [];
     messages.push(prompt);
 
-    return this.eventService.postSSECompletion(this.SERVER_URL + '/streaming', { messages, tempUserId: '123' })
+    return this.eventService.postSSECompletion(this.baseUrl + '/streaming', { messages, tempUserId: '123' })
 
   }
 
@@ -38,7 +37,7 @@ export class ChatGptService {
   }
 
   getChatSummery(prompt: string): Observable<string> {
-    return this.eventService.postSSECompletion(this.SERVER_URL + '/question-summery', { prompt: prompt });
+    return this.eventService.postSSECompletion(this.baseUrl + '/question-summery', { prompt: prompt });
   }
 
   setChats(chats: ChatDetails[]): void {

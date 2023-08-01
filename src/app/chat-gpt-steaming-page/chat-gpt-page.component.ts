@@ -281,7 +281,7 @@ export class ChatGptPageComponent {
 
   openSnackBar(message: string) {
     this._snackBar.open(message, 'close', {
-      duration: 2000,
+      duration: 10000,
     });
   }
 
