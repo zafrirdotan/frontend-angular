@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -8,13 +8,14 @@ import { environment } from 'src/environments/environment';
 })
 export class EventSourceService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(@Inject(DOCUMENT) private document: Document) { }
+
+  private baseUrl: string = !environment.production ? environment.apiUrl : `${this.document.location.origin}/api`;
 
   public postSSECompletion(url: string, data: any): Observable<any> {
     const subject = new Subject<string>();
-    console.log('url', url);
 
-    fetch(environment.apiUrl + '/' + url, {
+    fetch(`${this.baseUrl}/${url}`, {
       method: "POST",
       credentials: "include",
       headers: {
