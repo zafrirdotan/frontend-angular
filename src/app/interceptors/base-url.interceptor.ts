@@ -12,7 +12,7 @@ import { DOCUMENT } from '@angular/common';
 @Injectable()
 export class BaseUrlInterceptor implements HttpInterceptor {
 
-  private baseUrl: string = !environment.production ? environment.apiUrl : `${this.document.location.origin}/api`;
+  private baseUrl: string = environment.apiUrl;
 
   constructor(@Inject(DOCUMENT) private document: Document) { }
 
