@@ -10,7 +10,7 @@ export class EventSourceService {
 
   constructor(@Inject(DOCUMENT) private document: Document) { }
 
-  private baseUrl: string = !environment.production ? environment.apiUrl : `${this.document.location.origin}/api`;
+  private baseUrl: string = environment.apiUrl;
 
   public postSSECompletion(url: string, data: any): Observable<any> {
     const subject = new Subject<string>();
