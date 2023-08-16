@@ -2,6 +2,11 @@
     height: calc(100vh - 64px);
 }
 
+.sidenav-content {
+    background: #212121;
+    color: white;
+}
+
 .drawer-concent {
     height: calc(100vh - 64px - 103px);
     overflow-y: scroll;
@@ -13,7 +18,7 @@
     text-align: center;
     margin: 30% auto;
     font-size: 2rem;
-    color: #4050b5;
+    color: #d9d9e3;
     font-weight: bold;
     font-family: system-ui;
 
@@ -29,29 +34,36 @@
     padding: 1rem;
 
     .message {
-        width: 48rem;
+        width: 80%;
         display: flex;
-        margin: auto;
+        margin: auto 3rem;
+
+        @media (max-width: 768px) {
+            margin: 0;
+        }
 
         .avatar {
-            width: 1.7rem;
-            height: 1.4rem;
+            width: 3rem;
+            height: 2rem;
             color: white;
-            padding: 0.9rem 0.7rem;
-
+            padding: 0.5rem;
+            display: flex;
+            justify-content: center;
+            font-size: 1rem;
+            align-items: center;
         }
 
         .gpt-avatar {
-            background: #4050b5;
+            background: #34a09b;
         }
 
         .you-avatar {
-            background: #ff4081;
+            background: #a440ff;
         }
 
         .message-content {
             margin: 1rem;
-            width: 50vw;
+            width: 100%;
         }
     }
 
@@ -63,8 +75,6 @@
 
 }
 
-
-
 .message-input-container {
 
     width: 100%;
@@ -74,7 +84,11 @@
     background: white;
 
     .message-input {
-        width: 50%
+        width: 50%;
+
+        @media (max-width: 768px) {
+            width: 96%;
+        }
     }
 }
 
@@ -94,6 +108,7 @@
 
     .chat-button {
         width: 100%;
+        color: white;
 
         .button-content {
             display: flex;
@@ -105,17 +120,15 @@
             .chat-icon {
                 width: 0.5rem;
                 height: 1rem;
-                padding-right: 1.5rem;
+                padding: 1rem 1.5rem;
                 font-size: 1rem;
-                color: #828282
             }
 
             .delete-icon {
                 width: 0.5rem;
                 height: 1rem;
-                padding-right: 1.5rem;
+                padding: 1rem 1.5rem;
                 font-size: 1rem;
-                color: #828282
             }
 
             .button-text {
@@ -123,6 +136,10 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: block;
+            }
+
+            .delete-button {
+                color: white;
             }
         }
 
@@ -138,5 +155,10 @@
 
     .new-button {
         width: inherit;
+        color: white;
+    }
+
+    .close-button {
+        color: white;
     }
 }

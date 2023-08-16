@@ -4,6 +4,11 @@
     padding-top: 2rem;
     background: #FCFCFC;
 
+    @media (max-width: 768px) {
+        padding: 2rem 1rem;
+        width: inherit;
+    }
+
     .login-header {
         text-align: center;
         font-size: 2rem;

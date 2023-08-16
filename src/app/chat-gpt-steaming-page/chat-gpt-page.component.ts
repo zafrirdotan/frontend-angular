@@ -20,6 +20,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LoginFormComponent } from '../login/login-form/login-form.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { SignupFormComponent } from '../login/signup-form/signup-form.component';
+import { User } from '../interfaces/user';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-chat-gpt-page',
@@ -64,6 +66,13 @@ export class ChatGptPageComponent {
   public selectedChatId!: string | undefined;
   private accessToken: string | null = null;
 
+  public user: User | null = null;
+
+  private userSub: Subscription | undefined;
+  private routeSubscription: Subscription | undefined;
+  private chatCompSub: Subscription | undefined;
+  private chatSummerySub: Subscription | undefined;
+
   constructor(
     private chatGptService: ChatGptService,
     private route: ActivatedRoute,
@@ -74,8 +83,8 @@ export class ChatGptPageComponent {
     private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    console.log(this.router.url);
-    this.route.queryParamMap.subscribe(params => {
+
+    this.routeSubscription = this.route.queryParamMap.subscribe(params => {
       this.accessToken = params.get('token');
 
       if (this.accessToken) {
@@ -104,6 +113,11 @@ export class ChatGptPageComponent {
 
       }
 
+      this.userSub = this.authService.currentUser$.subscribe((user) => {
+
+        this.user = user;
+      });
+
       // this._location.go('/chat');
     });
 
@@ -118,6 +132,15 @@ export class ChatGptPageComponent {
     }
 
   }
+
+
+  ngOnDestroy() {
+    this.routeSubscription?.unsubscribe();
+    this.userSub?.unsubscribe();
+    this.chatCompSub?.unsubscribe();
+    this.chatSummerySub?.unsubscribe();
+  }
+
 
   sendMessage() {
     if (this.inputValue === '' || this.isLoadingResponseMessage) {
@@ -135,7 +158,7 @@ export class ChatGptPageComponent {
     this.isLoadingResponseMessage = true;
 
     // temp code
-    this.chatGptService.getChatCompletionStreaming(this.inputValue, this.selectedChatId!).subscribe({
+    this.chatCompSub = this.chatGptService.getChatCompletionStreaming(this.inputValue, this.selectedChatId!).subscribe({
       next: (tokens) => {
         if (!this.lastMessage) {
           // add the user message only after the first response
@@ -176,7 +199,7 @@ export class ChatGptPageComponent {
     }
 
     this.isLoadingChatName = true;
-    this.chatGptService.getChatSummery(this.inputValue).subscribe({
+    this.chatSummerySub = this.chatGptService.getChatSummery(this.inputValue).subscribe({
       next: (token: string) => {
 
         this.newChatName += token;
@@ -283,6 +306,10 @@ export class ChatGptPageComponent {
     this._snackBar.open(message, 'close', {
       duration: 10000,
     });
+  }
+
+  get isMobile() {
+    return window.innerWidth < 768;
   }
 
 }
