@@ -53,6 +53,8 @@ export class EventSourceService {
     while (true) {
       const { value, done } = await reader.read();
       if (done) {
+        console.log('[readAllChunks] Done');
+
         subject.complete();
         break;
       }

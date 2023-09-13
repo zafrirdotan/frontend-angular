@@ -10,7 +10,7 @@ import { EventSourceService } from '../services/event-source-service/event-sourc
 export class ChatGptService {
   private baseUrl = 'conversation';
 
-  constructor(private httpClient: HttpClient, private _zone: NgZone, private localStorageService: LocalStorageService, private eventService: EventSourceService) {
+  constructor(private localStorageService: LocalStorageService, private eventService: EventSourceService) {
   }
 
   getChatCompletionStreaming(message: string, chatId: string): Observable<any> {
@@ -32,6 +32,7 @@ export class ChatGptService {
   setChat(chatId: string, messages: ChatMassageItem[]): void {
     this.localStorageService.setItem(chatId, messages);
   }
+
   deleteChat(chatId: string): void {
     this.localStorageService.removeItem(chatId);
   }

@@ -1,0 +1,72 @@
+.chat-container {
+    height: calc(100vh - 64px - 150px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.message-container {
+    margin: auto;
+    padding: 1rem;
+
+
+    .message {
+        width: 60%;
+        display: flex;
+        margin: auto;
+
+        @media (max-width: 768px) {
+            margin: 0;
+            width: 100%;
+        }
+
+        .avatar {
+            width: 3rem;
+            height: 2rem;
+            color: white;
+            padding: 0.5rem;
+            display: flex;
+            justify-content: center;
+            font-size: 1rem;
+            align-items: center;
+        }
+
+        .gpt-avatar {
+            background: #34a09b;
+        }
+
+        .you-avatar {
+            background: #a440ff;
+        }
+
+        .message-content {
+            margin: 1rem;
+            width: 100%;
+        }
+    }
+}
+
+.message-input-container {
+
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 25px;
+    background: white;
+
+    .message-input {
+        width: 50%;
+
+        @media (max-width: 768px) {
+            width: 96%;
+        }
+    }
+}
+
+.list-massage {
+    padding: 0 1rem;
+}
+
+.sidenav-content {
+    background: #fafafa;
+    width: 14rem;
+}

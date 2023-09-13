@@ -1,9 +1,9 @@
 import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, Sanitizer, SecurityContext } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { marked } from 'marked';
 import { HighlightCodeDirective } from 'src/app/directives/highlight-code.directive';
 import { massageContentItem } from 'src/app/interfaces/chat-item';
-
 @Component({
   selector: 'app-assistant-message',
   templateUrl: './assistant-message.component.html',
@@ -26,7 +26,7 @@ export class AssistantMessageComponent {
       if (index % 2 === 0) {
 
         return {
-          content: part.trim().replace(/`([^`]+)`/g, '<b>`$1`</b>'),
+          content: this.toMarkdownHtml(part),
           type: 'text'
         }
       }
@@ -34,10 +34,9 @@ export class AssistantMessageComponent {
       // If the index is odd, it's a code part
       const [codeType, ...codeLines] = part.split("\n");
 
-      const safeContent = this.sanitizer.bypassSecurityTrustHtml(codeLines.join("\n").trim());
 
       return {
-        content: safeContent,
+        content: codeLines.join("\n").trim(),
         type: 'code',
         codeType: codeType.trim() as massageContentItem['codeType']
       }
@@ -52,7 +51,13 @@ export class AssistantMessageComponent {
     return this._message;
   }
 
+  toMarkdownHtml(str: string): string {
+    return this.sanitizer.sanitize(SecurityContext.HTML, marked.parse(str)) as string;
+  }
+
 
   constructor(private sanitizer: DomSanitizer) { }
 
 }
+
+
