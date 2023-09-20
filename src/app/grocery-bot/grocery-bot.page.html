@@ -2,20 +2,21 @@
 
     <mat-drawer #drawer class="sidenav-content" [mode]="isMobile? 'over': 'side'" [opened]=" isMobile? false: true">
 
-        <h2>Cart</h2>
+        <h2 class="cart-title">Your Cart</h2>
+        <mat-divider></mat-divider>
 
-        <ol>
-            <li *ngFor="let item of cart">
+        <div class="cart-container">
+            <app-cart [cart]="cart"></app-cart>
+        </div>
+        <button mat-raised-button color="primary" class="pay-button" (click)="payNow()">
+            Pay Now
 
-                {{item.name}}
-                {{item.quantity}}
-            </li>
-        </ol>
+        </button>
 
     </mat-drawer>
 
     <mat-drawer-content>
-        <div class="chat-container">
+        <div class="chat-container" #scrollTarget>
 
             <div *ngFor="let chatItem of chatList" class="message-container"
                 [ngClass]="{'bot-message': chatItem.role === 'assistant'}">

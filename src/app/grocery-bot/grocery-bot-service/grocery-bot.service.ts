@@ -6,6 +6,7 @@ import { EventSourceService } from 'src/app/services/event-source-service/event-
 import { LocalStorageService } from 'src/app/services/local-storage-service/local-storage.service';
 import { mockChunks } from './mock-data';
 import { ICartItem } from 'src/app/interfaces/grocery-bot';
+import { responseDictionary } from '../crocery-bot-response-dictionary';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +19,7 @@ export class GroceryBotService {
 
 
   private readonly defaultMessages: ChatMassageItem[] = [{
-    // content: 'Hello, I am Grocery Bot. I can help you find the best deals on groceries. What would you like to buy today?',
-    // content: 'שלום אני בוט הקניות שלך איך אוכל לעזור לך?',
-    content: 'Hello, I am your shopping assistant. Please write your shopping list in plane text and we will add it to your cart.',
+    content: responseDictionary.introductionMessage.en(),
     role: 'assistant',
   }]
 

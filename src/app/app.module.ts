@@ -9,7 +9,6 @@ import { NavbarModule } from './navbar/navbar.module';
 import { LoginModule } from './login/login.module';
 import { AuthModule } from './auth/auth.module';
 import { BaseUrlInterceptor } from './interceptors/base-url.interceptor';
-import { TextareaComponent } from './grocery-bot/components/textarea/textarea.component';
 
 @NgModule({
   declarations: [

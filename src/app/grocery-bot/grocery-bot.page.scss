@@ -1,5 +1,5 @@
 .chat-container {
-    height: calc(100vh - 64px - 150px);
+    height: calc(100vh - 64px - 110px);
     overflow-y: scroll;
     overflow-x: hidden;
 }
@@ -68,5 +68,25 @@
 
 .sidenav-content {
     background: #fafafa;
-    width: 14rem;
+    width: 22rem;
+}
+
+.cart-title {
+    text-align: center;
+    // background-color: black;
+    // color: white;
+}
+
+.cart-container {
+    height: calc(100vh - 64px - 112px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.pay-button {
+    margin: 0 auto;
+    display: block;
+    width: 80%;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
