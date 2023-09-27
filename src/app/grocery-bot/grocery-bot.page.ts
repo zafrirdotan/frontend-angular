@@ -207,6 +207,10 @@ export class GroceryBotPage implements OnInit {
           if (this.isClearCartMessage) {
             this.isClearCartMessage = false;
           }
+          break
+        case 'user asks is product available?':
+          this.chatList.push({ content: responseDictionary.isProductAvailable[language](action), role: 'assistant' });
+          break
       }
 
       if (['add to cart', 'remove from cart', 'add x', 'remove x', 'clear cart'].includes(action.action)) {

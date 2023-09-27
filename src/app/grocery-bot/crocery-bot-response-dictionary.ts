@@ -60,6 +60,10 @@ export const responseDictionary: {
         he: () => 'האם אתה בטוח שברצונך לרוקן את העגלה שלך?',
         en: () => 'Are you shore you want to clear your cart?',
     },
+    isProductAvailable: {
+        en: (action: any) => `The product ${action?.list[0]?.name} is ${action?.list[0]?.isAvailable ? 'available' : 'not available'}`,
+        he: (action: any) => `המוצר ${action?.list[0]?.name} ${action?.list[0]?.isAvailable ? 'זמין' : 'לא זמין'}`
+    }
 }
 
 
@@ -74,6 +78,7 @@ enum ResponseDictionary {
     sayingHallo = 'sayingHallo',
     showCart = 'showCart',
     clearCart = 'clearCart',
+    isProductAvailable = 'isProductAvailable'
 
 }
 
