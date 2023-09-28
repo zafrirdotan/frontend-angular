@@ -1,0 +1,32 @@
+<div class="cart-container">
+
+    <div *ngFor="let item of cart; let i = index">
+        <div class="cart-item">
+
+            <div class="item-name">
+
+                {{item.name}}
+            </div>
+            <div>
+                price: {{item.price}}
+            </div>
+            <div>
+                {{item.quantity}}
+                {{item.unit}}
+            </div>
+            <button mat-icon-button color="primary" (click)="decreaseQuantity(item)">
+                <mat-icon>remove</mat-icon>
+            </button>
+            <button mat-icon-button (click)="increaseQuantity(item)">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+        <!-- <div class="cart-item">
+            alternatives:
+            <div *ngFor="let alt of item.alternatives">
+                {{alt.name}}
+            </div>
+        </div> -->
+        <mat-divider></mat-divider>
+    </div>
+</div>

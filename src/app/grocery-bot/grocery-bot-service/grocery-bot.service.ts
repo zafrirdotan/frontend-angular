@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject, from, map, of, reduce, scan } from 'rxjs';
+import { Observable, Subject, from } from 'rxjs';
 import { ChatMassageItem } from 'src/app/interfaces/chat-item';
 import { EventSourceService } from 'src/app/services/event-source-service/event-source.service';
 import { LocalStorageService } from 'src/app/services/local-storage-service/local-storage.service';
@@ -14,7 +14,7 @@ import { responseDictionary } from '../crocery-bot-response-dictionary';
 export class GroceryBotService {
 
 
-  private readonly baseUrl = 'grocery-bot';
+  private readonly baseUrl = 'grocery-bot-v1';
   private readonly chatId = 'grocery-bot';
 
 
