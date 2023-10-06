@@ -22,11 +22,11 @@ export class GroceryBotService {
   constructor(private localStorageService: LocalStorageService, private eventService: EventSourceService, private httpClient: HttpClient) { }
 
   getJSONCompletion(message: string): any {
-    let messages = this.localStorageService.getItem(this.chatId) || [];
+    // let messages = this.localStorageService.getItem(this.chatId) || [];
 
     const prompt = this.createMessageObject(message);
-    messages.push(prompt);
-    return this.httpClient.post(this.baseUrl, { messages, cart: this.getCart(), lastAction: this.getLastAction() });
+    // messages.push(prompt);
+    return this.httpClient.post(this.baseUrl, { message: prompt, cart: this.getCart(), lastAction: this.getLastAction() });
   }
 
   private createMessageObject(content: string): any {

@@ -6,7 +6,7 @@
         <mat-divider></mat-divider>
 
         <div class="cart-container">
-            <app-cart [cart]="cart"></app-cart>
+            <app-cart [cart]="cart" (cartChange)="cartChange($event)"></app-cart>
         </div>
         <button mat-raised-button color="primary" class="pay-button" (click)="payNow()">
             Pay Now
