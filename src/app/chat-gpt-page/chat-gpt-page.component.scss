@@ -1,164 +1,131 @@
 .page-container {
-    height: calc(100vh - 64px);
-}
-
-.sidenav-content {
-    background: #212121;
-    color: white;
+  height: calc(100vh - 64px);
 }
 
 .drawer-concent {
-    height: calc(100vh - 64px - 103px);
-    overflow-y: scroll;
-    overflow-x: hidden;
+  height: calc(100vh - 64px - 103px);
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
-.placeholder-text {
-    position: relative;
-    text-align: center;
-    margin: 30% auto;
-    font-size: 2rem;
-    color: #d9d9e3;
-    font-weight: bold;
-    font-family: system-ui;
-
-    .app-image {
-        width: 6rem;
-        position: absolute;
-        bottom: 5px;
-    }
+.placeholder {
+  position: relative;
+  text-align: center;
+  margin: 2% auto;
+  .app-image {
+    width: 14rem;
+  }
 }
 
 .message-container {
-    margin: auto;
-    padding: 1rem;
+  margin: auto;
+  padding: 1rem;
 
-    .message {
-        width: 80%;
-        display: flex;
-        margin: auto 3rem;
+  .message {
+    width: 80%;
+    display: flex;
+    margin: auto 3rem;
 
-        @media (max-width: 768px) {
-            margin: 0;
-        }
-
-        .avatar {
-            width: 3rem;
-            height: 2rem;
-            color: white;
-            padding: 0.5rem;
-            display: flex;
-            justify-content: center;
-            font-size: 1rem;
-            align-items: center;
-        }
-
-        .gpt-avatar {
-            background: #34a09b;
-        }
-
-        .you-avatar {
-            background: #a440ff;
-        }
-
-        .message-content {
-            margin: 1rem;
-            width: 100%;
-        }
+    @media (max-width: 768px) {
+      margin: 0;
     }
 
+    .avatar {
+      width: 3rem;
+      height: 2rem;
+      color: white;
+      padding: 0.5rem;
+      display: flex;
+      justify-content: center;
+      font-size: 1rem;
+      align-items: center;
+    }
 
+    .gpt-avatar {
+      background: #34a09b;
+    }
+
+    .you-avatar {
+      background: #a440ff;
+    }
+
+    .message-content {
+      margin: 1rem;
+      width: 100%;
+    }
+  }
 }
 
 .bot-message {
-    background-color: #f5f5f5;
-
+  background-color: #f5f5f5;
 }
 
 .message-input-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 25px;
+  background: white;
 
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding-top: 25px;
-    background: white;
+  .message-input {
+    width: 50%;
 
-    .message-input {
-        width: 50%;
-
-        @media (max-width: 768px) {
-            width: 96%;
-        }
+    @media (max-width: 768px) {
+      width: 96%;
     }
+  }
 }
 
-.example-sidenav-content {
-    display: flex;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-
+.chat-drawer {
+  width: 20rem;
 }
 
 .chat-button-container {
+  display: flex;
+  flex-direction: column-reverse;
+  width: 100%;
+
+  .chat-item {
     display: flex;
-    flex-direction: column-reverse;
-    width: fit-content;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.5rem;
+    margin-right: 0;
+  }
+  .chat-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
+    .button-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0.5rem;
 
-    .chat-button {
-        width: 100%;
-        color: white;
-
-        .button-content {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            width: 18rem;
-
-            .chat-icon {
-                width: 0.5rem;
-                height: 1rem;
-                padding: 1rem 1.5rem;
-                font-size: 1rem;
-            }
-
-            .delete-icon {
-                width: 0.5rem;
-                height: 1rem;
-                padding: 1rem 1.5rem;
-                font-size: 1rem;
-            }
-
-            .button-text {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: block;
-            }
-
-            .delete-button {
-                color: white;
-            }
-        }
-
+      .chat-icon {
+        font-size: 1rem;
+      }
     }
+  }
+  .delete-button {
+    display: none;
+  }
+}
 
+.chat-item:hover {
+  .delete-button {
+    display: block;
+  }
 }
 
 .close-button-container {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 
-    .new-button {
-        width: inherit;
-        color: white;
-    }
-
-    .close-button {
-        color: white;
-    }
+  .new-button {
+    margin: 0 1rem;
+  }
 }

@@ -51,7 +51,7 @@ export class GroceryBotPage implements OnInit {
   @ViewChild('scrollTarget', { static: false }) scrollTarget!: ElementRef;
 
   public inputValue: string = '';
-  isLoadingResponseMessage: any;
+  isLoadingResponseMessage: boolean = false;
   private chatCompSub: Subscription | undefined;
 
   public chatList: ChatMassageItem[] = [];
@@ -85,7 +85,7 @@ export class GroceryBotPage implements OnInit {
     const start = Date.now();
 
     this.chatList.push({ content: this.inputValue, role: 'user' });
-
+    this.isLoadingResponseMessage = true;
     this.chatCompSub = this.groceryBotService
       .getJSONCompletion(this.inputValue)
       .subscribe((action: any) => {
@@ -108,6 +108,7 @@ export class GroceryBotPage implements OnInit {
         this.groceryBotService.setChat(this.chatList);
 
         this.scrollToEnd('smooth');
+        this.isLoadingResponseMessage = false;
       });
   }
 
@@ -131,9 +132,5 @@ export class GroceryBotPage implements OnInit {
     this.cart = cart;
 
     this.groceryBotService.setCart(this.cart);
-  }
-
-  payNow() {
-    console.log('pay now');
   }
 }

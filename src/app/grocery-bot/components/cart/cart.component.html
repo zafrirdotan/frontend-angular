@@ -1,51 +1,46 @@
 <div class="cart-container">
-    <!-- cart headers -->
-    <div class="cart-header">
-        <div class="item-name">
-            Item
-        </div>
-        <div>
-            Price
-        </div>
-        <div>
-            Quantity
-        </div>
-        <div class="cart-header-buttons">
-            <!-- <button mat-icon-button color="primary" (click)="clearCart()">
-                <mat-icon>delete</mat-icon>
+  <div class="cart-header cart-item-container">
+    <div class="item-name">Item</div>
+    <div class="item-price">Price</div>
+    <div class="item-quantity">Quantity</div>
+  </div>
 
-            </button> -->
-
-        </div>
+  <div class="cart-item-container" *ngFor="let item of cart; let i = index">
+    <div class="cart-item">
+      <div class="item-name">
+        {{ item.name }}
+      </div>
+      <div class="item-price">
+        {{ item.price }}
+      </div>
+      <div class="item-quantity">
+        {{ item.quantity }}
+        {{ item.unit }}
+      </div>
+      <div class="add-submit-items-buttons">
+        <button
+          mat-icon-button
+          color="primary"
+          (click)="decreaseQuantity(item)"
+        >
+          <mat-icon>remove</mat-icon>
+        </button>
+        <button mat-icon-button (click)="increaseQuantity(item)">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
     </div>
-
-    <div *ngFor="let item of cart; let i = index">
-        <div class="cart-item">
-
-            <div class="item-name">
-
-                {{item.name}}
-            </div>
-            <div>
-                {{item.price}}
-            </div>
-            <div>
-                {{item.quantity}}
-                {{item.unit}}
-            </div>
-            <button mat-icon-button color="primary" (click)="decreaseQuantity(item)">
-                <mat-icon>remove</mat-icon>
-            </button>
-            <button mat-icon-button (click)="increaseQuantity(item)">
-                <mat-icon>add</mat-icon>
-            </button>
-        </div>
-        alternatives:
-        <div class="alternatives">
-            <div *ngFor="let alt of item.alternatives | slice:0:4" class="alternative-item">
-                {{alt.name}}
-            </div>
-        </div>
-        <mat-divider></mat-divider>
+    <div class="alternatives" *ngIf="item.alternatives?.length">
+      alternatives:
+      <div
+        *ngFor="let alt of item.alternatives | slice : 0 : 4"
+        class="alternative-item"
+      >
+        {{ alt.name }}
+      </div>
     </div>
+  </div>
 </div>
+<button mat-raised-button color="primary" class="pay-button" (click)="payNow()">
+  Pay Now
+</button>

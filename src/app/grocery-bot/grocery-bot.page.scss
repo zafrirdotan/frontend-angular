@@ -1,92 +1,75 @@
 .chat-container {
-    height: calc(100vh - 64px - 110px);
-    overflow-y: scroll;
-    overflow-x: hidden;
+  height: calc(100vh - 64px - 110px);
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .message-container {
+  margin: auto;
+  padding-top: 1rem;
+
+  .message {
+    width: 60%;
     margin: auto;
-    padding: 1rem;
 
-
-    .message {
-        width: 60%;
-        display: flex;
-        margin: auto;
-
-        @media (max-width: 768px) {
-            margin: 0;
-            width: 100%;
-        }
-
-        .avatar {
-            width: 3rem;
-            height: 2rem;
-            color: white;
-            padding: 0.5rem;
-            display: flex;
-            justify-content: center;
-            font-size: 1rem;
-            align-items: center;
-        }
-
-        .gpt-avatar {
-            background: #34a09b;
-        }
-
-        .you-avatar {
-            background: #a440ff;
-        }
-
-        .message-content {
-            margin: 1rem;
-            width: 100%;
-        }
+    @media (max-width: 768px) {
+      margin: 0;
+      width: 100%;
     }
+
+    .avatar {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      width: 8rem;
+    }
+
+    .gpt-avatar {
+      border: 2px solid rgb(85, 78, 78);
+      border-radius: 50%;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 0.5rem;
+    }
+
+    .message-content {
+      margin-top: 0.5rem;
+      padding-left: 2.2rem;
+    }
+    .user-avatar {
+      background: black;
+      color: white;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+  }
 }
 
 .message-input-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 25px;
 
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding-top: 25px;
-    background: white;
+  .message-input {
+    width: 50%;
 
-    .message-input {
-        width: 50%;
-
-        @media (max-width: 768px) {
-            width: 96%;
-        }
+    @media (max-width: 768px) {
+      width: 96%;
     }
+  }
 }
 
 .list-massage {
-    padding: 0 1rem;
+  padding: 0 1rem;
 }
 
 .sidenav-content {
-    background: #fafafa;
-    width: 26rem;
+  width: 26rem;
 }
 
 .cart-title {
-    text-align: center;
-    // background-color: black;
-    // color: white;
-}
-
-.cart-container {
-    height: calc(100vh - 64px - 112px);
-    overflow-y: scroll;
-    overflow-x: hidden;
-}
-
-.pay-button {
-    margin: 0 auto;
-    display: block;
-    width: 80%;
-    margin-top: 10px;
-    margin-bottom: 10px;
+  padding: 0 1rem;
 }

@@ -1,17 +1,22 @@
 .navbar-spacer {
-    flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.icon {
+  font-size: 1.5rem;
+  margin-right: 1.5rem;
 }
 
 .user-avatar {
-    border-radius: 50%;
-    border: 2px solid white;
-    text-align: center;
-    padding: 0;
+  border-radius: 50%;
+  border: 2px solid white;
+  text-align: center;
+  padding: 0;
 }
 
 .sign-up-button {
-    color: white;
-    background: transparent;
-    border: 1px solid white;
-    padding: 1rem;
+  //   color: white;
+  background: transparent;
+  //   border: 1px solid white;
+  padding: 1rem;
 }
