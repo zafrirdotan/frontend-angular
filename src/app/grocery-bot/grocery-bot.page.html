@@ -1,78 +1,85 @@
 <mat-drawer-container class="page-container" autosize>
+  <mat-drawer
+    #drawer
+    class="sidenav-content"
+    [mode]="isMobile? 'over': 'side'"
+    [opened]=" isMobile? false: true"
+  >
+    <h2 class="cart-title">Your Cart</h2>
+    <mat-divider></mat-divider>
 
-    <mat-drawer #drawer class="sidenav-content" [mode]="isMobile? 'over': 'side'" [opened]=" isMobile? false: true">
+    <div class="cart-container">
+      <app-cart [cart]="cart" (cartChange)="cartChange($event)"></app-cart>
+    </div>
+    <button
+      mat-raised-button
+      color="primary"
+      class="pay-button"
+      (click)="payNow()"
+    >
+      Pay Now
+    </button>
+  </mat-drawer>
 
-        <h2 class="cart-title">Your Cart</h2>
-        <mat-divider></mat-divider>
-
-        <div class="cart-container">
-            <app-cart [cart]="cart"></app-cart>
+  <mat-drawer-content>
+    <div class="chat-container" #scrollTarget>
+      <div
+        *ngFor="let chatItem of chatList"
+        class="message-container"
+        [ngClass]="{'bot-message': chatItem.role === 'assistant'}"
+      >
+        <div *ngIf=" chatItem.role==='user'" class="message user-message">
+          <div class="avatar you-avatar">{{ 'YOU' }}</div>
+          <div class="message-content">{{ chatItem.content }}</div>
         </div>
-        <button mat-raised-button color="primary" class="pay-button" (click)="payNow()">
-            Pay Now
 
+        <div *ngIf="chatItem.role === 'assistant'" class="message bot-message">
+          <div class="avatar gpt-avatar">GPT</div>
+          <app-assistant-message
+            class="message-content"
+            [message]="chatItem.content"
+          ></app-assistant-message>
+        </div>
+      </div>
+
+      <div
+        *ngIf="this.isLoadingResponseMessage"
+        class="message-container"
+        #scrollTarget
+      >
+        <div class="message bot-message">
+          <div class="avatar gpt-avatar">GPT</div>
+          <app-assistant-message
+            class="message-content"
+            [message]="lastMessage"
+          ></app-assistant-message>
+        </div>
+      </div>
+    </div>
+
+    <div class="message-input-container">
+      <mat-form-field class="message-input" appearance="outline">
+        <input
+          matInput
+          type="text"
+          [(ngModel)]="inputValue"
+          placeholder="Send a massage."
+          (keydown.enter)="sendMessage()"
+        />
+
+        <button
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="sendMessage()"
+          *ngIf="!isLoadingResponseMessage; else loader;"
+        >
+          <mat-icon>send</mat-icon>
         </button>
 
-    </mat-drawer>
-
-    <mat-drawer-content>
-        <div class="chat-container" #scrollTarget>
-
-            <div *ngFor="let chatItem of chatList" class="message-container"
-                [ngClass]="{'bot-message': chatItem.role === 'assistant'}">
-
-
-                <div *ngIf=" chatItem.role==='user'" class="message user-message">
-                    <div class="avatar you-avatar">
-                        {{ 'YOU' }}
-                    </div>
-                    <div class="message-content">
-                        {{ chatItem.content }}
-                    </div>
-                </div>
-
-                <div *ngIf="chatItem.role === 'assistant'" class="message bot-message">
-                    <div class="avatar gpt-avatar">
-                        GPT
-                    </div>
-                    <app-assistant-message class="message-content" [message]="chatItem.content"></app-assistant-message>
-                </div>
-            </div>
-
-            <div *ngIf="this.isLoadingResponseMessage" class="message-container" #scrollTarget>
-
-                <div class="message bot-message">
-                    <div class="avatar gpt-avatar">
-                        GPT
-                    </div>
-                    <app-assistant-message class="message-content" [message]="lastMessage"></app-assistant-message>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="message-input-container">
-            <!-- <div class="message-container">
-                <div class="message user-message list-massage">
-                    <app-textarea (onSubmit)="onTextareaSubmit($event)"></app-textarea>
-                </div>
-
-            </div> -->
-
-            <mat-form-field class="message-input" appearance="outline">
-                <input matInput type="text" [(ngModel)]="inputValue" placeholder="Send a massage."
-                    (keydown.enter)="sendMessage()">
-
-                <button matSuffix mat-icon-button aria-label="Clear" (click)="sendMessage()"
-                    *ngIf="!isLoadingResponseMessage; else loader;">
-                    <mat-icon>send</mat-icon>
-                </button>
-
-                <ng-template #loader>
-                    <app-chat-loader matSuffix></app-chat-loader>
-                </ng-template>
-
-            </mat-form-field>
-        </div>
-    </mat-drawer-content>
+        <ng-template #loader>
+          <app-chat-loader matSuffix></app-chat-loader>
+        </ng-template>
+      </mat-form-field>
+    </div> </mat-drawer-content
+></mat-drawer-container>

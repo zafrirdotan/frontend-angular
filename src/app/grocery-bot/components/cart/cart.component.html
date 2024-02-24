@@ -1,4 +1,23 @@
 <div class="cart-container">
+    <!-- cart headers -->
+    <div class="cart-header">
+        <div class="item-name">
+            Item
+        </div>
+        <div>
+            Price
+        </div>
+        <div>
+            Quantity
+        </div>
+        <div class="cart-header-buttons">
+            <!-- <button mat-icon-button color="primary" (click)="clearCart()">
+                <mat-icon>delete</mat-icon>
+
+            </button> -->
+
+        </div>
+    </div>
 
     <div *ngFor="let item of cart; let i = index">
         <div class="cart-item">
@@ -8,7 +27,7 @@
                 {{item.name}}
             </div>
             <div>
-                price: {{item.price}}
+                {{item.price}}
             </div>
             <div>
                 {{item.quantity}}
@@ -21,12 +40,12 @@
                 <mat-icon>add</mat-icon>
             </button>
         </div>
-        <!-- <div class="cart-item">
-            alternatives:
-            <div *ngFor="let alt of item.alternatives">
+        alternatives:
+        <div class="alternatives">
+            <div *ngFor="let alt of item.alternatives | slice:0:4" class="alternative-item">
                 {{alt.name}}
             </div>
-        </div> -->
+        </div>
         <mat-divider></mat-divider>
     </div>
 </div>
