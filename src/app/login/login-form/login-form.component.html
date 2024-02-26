@@ -1,45 +1,57 @@
 <mat-card class="login-card" *ngIf="data">
-    <mat-card-header class="login-header">
-        <mat-card-title>
-            <img src="assets/images/lion-GPT.png" alt="My Image" class="app-image">
+  <mat-card-header class="login-header">
+    <mat-card-title>
+      <img src="assets/images/lion-GPT.webp" alt="My Image" class="app-image" />
 
-            <h1> {{data.isLogin? 'Login to GPT Clone': 'Signup to GPT Clone'}}</h1>
-        </mat-card-title>
-    </mat-card-header>
-    <ng-container *ngIf="showForm; else checkEmailMessage">
-        <mat-card-content class="login-content">
-            <form>
-                <p for="email">Enter your email and we will send you a login link</p>
+      <h1>{{ data.isLogin ? "Login to GPT Clone" : "Signup to GPT Clone" }}</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <ng-container *ngIf="showForm; else checkEmailMessage">
+    <mat-card-content class="login-content">
+      <form>
+        <p for="email">Enter your email and we will send you a login link</p>
 
-                <mat-form-field class="form-input">
-                    <mat-label for="email">Email</mat-label>
-                    <input matInput [formControl]="email" placeholder="Email" type="text"
-                        (keyup.enter)="onButtonClick()">
+        <mat-form-field class="form-input">
+          <mat-label for="email">Email</mat-label>
+          <input
+            matInput
+            [formControl]="email"
+            placeholder="Email"
+            type="text"
+            (keyup.enter)="onButtonClick()"
+          />
 
-                    <mat-error *ngIf="email.hasError('email')">
-                        Please enter a valid email address
-                    </mat-error>
-                </mat-form-field>
-            </form>
-            <mat-error *ngIf="errorMessage">
-                {{errorMessage}}
-            </mat-error>
-        </mat-card-content>
-        <mat-card-actions class="login-action">
-            <button mat-raised-button color="primary" class="login-button" (click)="onButtonClick()">
-                {{data.isLogin? 'Login': 'Signup'}}
-            </button>
-        </mat-card-actions>
-    </ng-container>
+          <mat-error *ngIf="email.hasError('email')">
+            Please enter a valid email address
+          </mat-error>
+        </mat-form-field>
+      </form>
+      <mat-error *ngIf="errorMessage">
+        {{ errorMessage }}
+      </mat-error>
+    </mat-card-content>
+    <mat-card-actions class="login-action">
+      <button
+        mat-raised-button
+        color="primary"
+        class="login-button"
+        (click)="onButtonClick()"
+      >
+        {{ data.isLogin ? "Login" : "Signup" }}
+      </button>
+    </mat-card-actions>
+  </ng-container>
 
-    <ng-template #checkEmailMessage>
-        <mat-card-content class="login-content check-email-message">
-            <h3 *ngIf="data.isLogin">Thank you for logging in with your email.
-                Check your email for a the login link.</h3>
-            <h3 *ngIf="!data.isLogin">Thank you for signing up with your email.
-                Check your email for a the signup link.</h3>
-        </mat-card-content>
-    </ng-template>
-
-
+  <ng-template #checkEmailMessage>
+    <mat-card-content class="login-content check-email-message">
+      <h3 *ngIf="data.isLogin">
+        Thank you for logging in with your email. Check your email for a the
+        login link.
+      </h3>
+      <h3 *ngIf="!data.isLogin">
+        Thank you for signing up with your email. Check your email for a the
+        signup link.
+      </h3>
+    </mat-card-content>
+  </ng-template>
 </mat-card>
