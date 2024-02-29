@@ -1,4 +1,5 @@
 export const environment = {
-    production: true,
-    apiUrl: 'http://ai-1-env.eba-gprgyque.eu-north-1.elasticbeanstalk.com/api' // to be changed
+  production: true,
+  apiUrl:
+    'http://Nest-ai-deploy-env.eba-ypepekfz.il-central-1.elasticbeanstalk/api', // to be changed
 };
