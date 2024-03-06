@@ -12,6 +12,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthModule } from '../auth/auth.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [NavbarComponent],
@@ -28,6 +29,7 @@ import { RouterModule } from '@angular/router';
     MatDialogModule,
     AuthModule,
     RouterModule,
+    HttpClientModule,
   ],
   exports: [NavbarComponent],
 })

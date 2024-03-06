@@ -22,3 +22,12 @@
   //   border: 1px solid white;
   padding: 1rem;
 }
+
+.icon-container {
+  width: 48px; /* or desired size */
+  height: 48px; /* or desired size */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible; /* Ensure the icon is not trimmed */
+}

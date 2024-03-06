@@ -2,14 +2,19 @@
   <img src="assets/images/lion-GPT.webp" alt="My Image" class="app-image" />
 
   <span class="icon">.AI</span>
+
+  <button mat-button [routerLink]="['/grocery-bot']">
+    <mat-icon>shopping_cart</mat-icon> Shopit GPT Bot
+  </button>
   <button mat-button [routerLink]="['/chat']">
     <mat-icon>chat</mat-icon> Chat Bot
   </button>
-
-  <button mat-button [routerLink]="['/grocery-bot']">
-    <mat-icon>shopping_cart</mat-icon> Cart bot
-  </button>
   <span class="navbar-spacer"> </span>
+  <a href="https://github.com/zafrirdotan/AI-App" target="_blank">
+    <div class="icon-container">
+      <mat-icon svgIcon="github"></mat-icon>
+    </div>
+  </a>
 
   <button
     *ngIf="!user"

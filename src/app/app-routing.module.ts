@@ -14,8 +14,8 @@ const routes: Routes = [
     //canActivate: [AuthGuard]
   },
   { path: 'grocery-bot', component: GroceryBotPage },
-  { path: '**', redirectTo: '/chat' },
-  { path: '', redirectTo: '/chat', pathMatch: 'full' },
+  { path: '**', redirectTo: '/grocery-bot' },
+  { path: '', redirectTo: '/grocery-bot', pathMatch: 'full' },
 ];
 
 @NgModule({
