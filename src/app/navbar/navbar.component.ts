@@ -86,4 +86,8 @@ export class NavbarComponent {
       data: { isLogin: true },
     });
   }
+
+  get isMobile() {
+    return window.innerWidth < 768;
+  }
 }

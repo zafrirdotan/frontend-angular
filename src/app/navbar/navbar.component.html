@@ -1,13 +1,13 @@
 <mat-toolbar *ngIf="showToolbar">
   <img src="assets/images/lion-GPT.webp" alt="My Image" class="app-image" />
 
-  <span class="icon">.AI</span>
+  <span class="icon">Shopit</span>
 
   <button mat-button [routerLink]="['/grocery-bot']">
-    <mat-icon>shopping_cart</mat-icon> Shopit GPT Bot
+    <mat-icon>shopping_cart</mat-icon> Bot
   </button>
   <button mat-button [routerLink]="['/chat']">
-    <mat-icon>chat</mat-icon> Chat Bot
+    <mat-icon>chat</mat-icon> Chat GPT
   </button>
   <span class="navbar-spacer"> </span>
   <a href="https://github.com/zafrirdotan/AI-App" target="_blank">
@@ -17,7 +17,7 @@
   </a>
 
   <button
-    *ngIf="!user"
+    *ngIf="!user && !isMobile"
     mat-button
     class="sign-up-button"
     aria-label="login"
@@ -28,7 +28,7 @@
   </button>
 
   <button
-    *ngIf="!user"
+    *ngIf="!user && !isMobile"
     mat-button
     aria-label="login"
     matTooltip="login to get full excess"
@@ -38,22 +38,41 @@
   </button>
 
   <button
-    *ngIf="user?.name"
     mat-icon-button
     [matMenuTriggerFor]="userMenu"
-    class="user-avatar"
+    *ngIf="user || isMobile"
   >
-    {{ user!.name.charAt(0) }}
+    <span class="user-name" *ngIf="user">{{ user!.name.charAt(0) }}</span>
+    <mat-icon class="user-avatar" *ngIf="!user">account_circle</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-menu #userMenu="matMenu">
+  <!-- <button mat-menu-item>
+          <mat-icon>settings_applications</mat-icon>
+          <span>Settings</span>
+      </button> -->
+  <button mat-menu-item *ngIf="user" (click)="logout()">
+    <mat-icon>exit_to_app</mat-icon>
+    <span>Logout</span>
+  </button>
+  <button
+    *ngIf="!user && isMobile"
+    mat-menu-item
+    aria-label="login"
+    matTooltip="login to get full excess"
+    (click)="openSignupDialog()"
+  >
+    Sign up
   </button>
 
-  <mat-menu #userMenu="matMenu">
-    <!-- <button mat-menu-item>
-            <mat-icon>settings_applications</mat-icon>
-            <span>Settings</span>
-        </button> -->
-    <button mat-menu-item (click)="logout()">
-      <mat-icon>exit_to_app</mat-icon>
-      <span>Logout</span>
-    </button>
-  </mat-menu>
-</mat-toolbar>
+  <button
+    *ngIf="!user && isMobile"
+    mat-menu-item
+    aria-label="login"
+    matTooltip="login to get full excess"
+    (click)="goToLoginPage()"
+  >
+    Login
+  </button>
+</mat-menu>

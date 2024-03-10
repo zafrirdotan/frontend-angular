@@ -28,26 +28,25 @@ import { Subscription } from 'rxjs';
   templateUrl: './chat-gpt-page.component.html',
   styleUrls: ['./chat-gpt-page.component.scss'],
   standalone: true,
-  imports:
-    [MatFormFieldModule,
-      MatInputModule,
-      FormsModule,
-      NgIf,
-      MatButtonModule,
-      MatIconModule,
-      NgFor,
-      ChatLoaderComponent,
-      MatToolbarModule,
-      MatSidenavModule,
-      MatListModule,
-      CommonModule,
-      HighlightCodeDirective,
-      AssistantMessageComponent,
-      MatDialogModule,
-      MatSnackBarModule],
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    NgIf,
+    MatButtonModule,
+    MatIconModule,
+    NgFor,
+    ChatLoaderComponent,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    CommonModule,
+    HighlightCodeDirective,
+    AssistantMessageComponent,
+    MatDialogModule,
+    MatSnackBarModule,
+  ],
 })
-
-
 export class ChatGptPageComponent {
   @ViewChild('scrollTarget', { static: false }) scrollTarget!: ElementRef;
 
@@ -80,11 +79,11 @@ export class ChatGptPageComponent {
     private router: Router,
     private _location: Location,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar) { }
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
-
-    this.routeSubscription = this.route.queryParamMap.subscribe(params => {
+    this.routeSubscription = this.route.queryParamMap.subscribe((params) => {
       this.accessToken = params.get('token');
 
       if (this.accessToken) {
@@ -93,14 +92,11 @@ export class ChatGptPageComponent {
         } else if (this.router.url.includes('signup')) {
           this.openSignUpDialog();
         }
-
       } else {
-
         this.authService.checkIfUserLoggedIn().subscribe({
           next: (isLoggedIn) => {
             if (!isLoggedIn) {
               this.getTempUserCookie();
-
             }
 
             console.log('isLoggedIn', isLoggedIn);
@@ -108,31 +104,27 @@ export class ChatGptPageComponent {
           error: (error) => {
             console.log('error', error);
             this.getTempUserCookie();
-          }
-        })
-
+          },
+        });
       }
 
       this.userSub = this.authService.currentUser$.subscribe((user) => {
-
         this.user = user;
       });
-
-      // this._location.go('/chat');
     });
 
     this.selectedChatId = this.chatGptService.gatSelectedChat();
     this.chatsList = this.chatGptService.getChats() || [];
     if (this.selectedChatId) {
       this.chat = this.chatGptService.getChat(this.selectedChatId);
-
     }
     if (!this.selectedChatId) {
-      this.createNewChat()
+      this.createNewChat();
     }
-
   }
-
+  ngAfterViewInit() {
+    this.scrollToEnd('instant');
+  }
 
   ngOnDestroy() {
     this.routeSubscription?.unsubscribe();
@@ -140,7 +132,6 @@ export class ChatGptPageComponent {
     this.chatCompSub?.unsubscribe();
     this.chatSummerySub?.unsubscribe();
   }
-
 
   sendMessage() {
     if (this.inputValue === '' || this.isLoadingResponseMessage) {
@@ -158,40 +149,38 @@ export class ChatGptPageComponent {
     this.isLoadingResponseMessage = true;
 
     // temp code
-    this.chatCompSub = this.chatGptService.getChatCompletionStreaming(this.inputValue, this.selectedChatId!).subscribe({
-      next: (tokens) => {
-        if (!this.lastMessage) {
-          // add the user message only after the first response
-          this.chat.push({ content: this.inputValue, role: 'user' });
-        }
+    this.chatCompSub = this.chatGptService
+      .getChatCompletionStreaming(this.inputValue, this.selectedChatId!)
+      .subscribe({
+        next: (tokens) => {
+          if (!this.lastMessage) {
+            // add the user message only after the first response
+            this.chat.push({ content: this.inputValue, role: 'user' });
+          }
 
-        this.lastMessage += tokens;
-        this.inputValue = '';
-        this.scrollToLastElement()
+          this.lastMessage += tokens;
+          this.inputValue = '';
+          this.scrollToEnd();
+        },
+        error: (err) => {
+          this.isLoadingResponseMessage = false;
+          console.log('error', err);
 
-      }, error: (err) => {
-        this.isLoadingResponseMessage = false;
-        console.log('error', err);
+          if (err.statusCode === 401) {
+            this.openLoginDialog();
+          }
+        },
+        complete: () => {
+          this.isLoadingResponseMessage = false;
+          this.chat.push({ content: this.lastMessage, role: 'assistant' });
 
-        if (err.statusCode === 401) {
-          this.openLoginDialog();
-        }
-
-      }, complete: () => {
-
-        this.isLoadingResponseMessage = false;
-        this.chat.push({ content: this.lastMessage, role: 'assistant' });
-
-        this.chatGptService.setChat(this.selectedChatId!, this.chat);
-        this.lastMessage = '';
-      }
-    });
-
-
+          this.chatGptService.setChat(this.selectedChatId!, this.chat);
+          this.lastMessage = '';
+        },
+      });
   }
 
   getChatName() {
-
     if (this.inputValue.length < 20) {
       this.newChatName = this.inputValue;
       this.updateChatName();
@@ -199,29 +188,29 @@ export class ChatGptPageComponent {
     }
 
     this.isLoadingChatName = true;
-    this.chatSummerySub = this.chatGptService.getChatSummery(this.inputValue).subscribe({
-      next: (token: string) => {
+    this.chatSummerySub = this.chatGptService
+      .getChatSummery(this.inputValue)
+      .subscribe({
+        next: (token: string) => {
+          this.newChatName += token;
+        },
+        error: (err) => {
+          this.isLoadingChatName = false;
+          console.log('error', err);
+        },
+        complete: () => {
+          if (this.newChatName) {
+            this.updateChatName();
+          }
+          this.newChatName = '';
 
-        this.newChatName += token;
-
-      }, error: (err) => {
-        this.isLoadingChatName = false;
-        console.log('error', err);
-
-      }, complete: () => {
-        if (this.newChatName) {
-          this.updateChatName();
-        }
-        this.newChatName = '';
-
-        this.isLoadingChatName = false;
-      }
-    });
-
+          this.isLoadingChatName = false;
+        },
+      });
   }
 
   updateChatName() {
-    const chat = this.chatsList.find(chat => chat.id === this.selectedChatId);
+    const chat = this.chatsList.find((chat) => chat.id === this.selectedChatId);
     if (!chat) {
       return;
     }
@@ -249,18 +238,23 @@ export class ChatGptPageComponent {
     if (chat.id === this.selectedChatId) {
       this.chat = [];
       this.selectedChatId = undefined;
-
     }
     this.chatsList = this.chatsList.filter(({ id }) => id !== chat.id);
     this.chatGptService.setChats(this.chatsList);
     this.chatGptService.deleteChat(chat.id);
   }
 
-  scrollToLastElement() {
-    const element = this.scrollTarget.nativeElement;
-    element.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+  scrollToEnd(behavior: 'smooth' | 'auto' | 'instant' = 'smooth') {
+    if (behavior === 'instant') {
+      this.scrollTarget.nativeElement.scrollTop =
+        this.scrollTarget.nativeElement.scrollHeight;
+      return;
+    }
+    this.scrollTarget.nativeElement.scrollTo({
+      top: this.scrollTarget.nativeElement.scrollHeight,
+      behavior,
+    });
   }
-
 
   authenticateWithMagicLink() {
     this.authService.loginWithMagicLink(this.accessToken!).subscribe({
@@ -270,7 +264,7 @@ export class ChatGptPageComponent {
       error: (error) => {
         this.router.navigateByUrl('/chat');
         this.getTempUserCookie();
-      }
+      },
     });
   }
 
@@ -282,24 +276,29 @@ export class ChatGptPageComponent {
       error: (error) => {
         this.router.navigateByUrl('/chat');
         console.log('login error', error);
-      }
+      },
     });
   }
 
   openLoginDialog() {
     this.dialog.open(LoginFormComponent, {
-      data: { isLogin: true }
+      data: { isLogin: true },
     });
   }
 
   openSignUpDialog() {
-    this.dialog.open(SignupFormComponent, {
-      data: { token: this.accessToken }
-    }).afterClosed().subscribe((isSuccess) => {
-      if (isSuccess) {
-        this.openSnackBar(`Thank you for completing the registration process! You are now logged in!`);
-      }
-    })
+    this.dialog
+      .open(SignupFormComponent, {
+        data: { token: this.accessToken },
+      })
+      .afterClosed()
+      .subscribe((isSuccess) => {
+        if (isSuccess) {
+          this.openSnackBar(
+            `Thank you for completing the registration process! You are now logged in!`
+          );
+        }
+      });
   }
 
   openSnackBar(message: string) {
@@ -311,5 +310,4 @@ export class ChatGptPageComponent {
   get isMobile() {
     return window.innerWidth < 768;
   }
-
 }

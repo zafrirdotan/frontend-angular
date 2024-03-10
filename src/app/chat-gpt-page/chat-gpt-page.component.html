@@ -40,7 +40,7 @@
   </mat-drawer>
 
   <mat-drawer-content>
-    <div class="drawer-concent">
+    <div class="drawer-concent" #scrollTarget>
       <div (click)="drawer.open()" *ngIf="!drawer.opened">
         <button mat-raised-button>
           <mat-icon>menu</mat-icon>
@@ -76,11 +76,7 @@
           ></app-assistant-message>
         </div>
       </div>
-      <div
-        *ngIf="this.isLoadingResponseMessage"
-        class="message-container"
-        #scrollTarget
-      >
+      <div *ngIf="this.isLoadingResponseMessage" class="message-container">
         <div class="message bot-message">
           <div class="avatar gpt-avatar">GPT</div>
           <app-assistant-message
