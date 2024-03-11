@@ -4,6 +4,11 @@
   overflow-x: hidden;
 }
 
+.close-button-container {
+  position: absolute;
+  right: 0;
+}
+
 .message-container {
   margin: auto;
   padding: 1rem;

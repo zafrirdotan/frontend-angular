@@ -19,9 +19,18 @@
   <button
     *ngIf="!user && !isMobile"
     mat-button
+    aria-label="about"
+    [routerLink]="['/about']"
+  >
+    About
+  </button>
+
+  <button
+    *ngIf="!user && !isMobile"
+    mat-button
     class="sign-up-button"
-    aria-label="login"
-    matTooltip="login to get full excess"
+    aria-label="sing up"
+    matTooltip="sign in to get full excess"
     (click)="openSignupDialog()"
   >
     Sign up
@@ -74,5 +83,14 @@
     (click)="goToLoginPage()"
   >
     Login
+  </button>
+
+  <button
+    *ngIf="!user && isMobile"
+    mat-menu-item
+    aria-label="about"
+    [routerLink]="['/about']"
+  >
+    About
   </button>
 </mat-menu>

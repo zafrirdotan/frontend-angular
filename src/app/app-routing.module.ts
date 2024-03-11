@@ -14,6 +14,10 @@ const routes: Routes = [
     //canActivate: [AuthGuard]
   },
   { path: 'grocery-bot', component: GroceryBotPage },
+  {
+    path: 'about',
+    loadComponent: () => import('./about/about.page').then((m) => m.AboutPage),
+  },
   { path: '**', redirectTo: '/grocery-bot' },
   { path: '', redirectTo: '/grocery-bot', pathMatch: 'full' },
 ];

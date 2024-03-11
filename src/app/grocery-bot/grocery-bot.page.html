@@ -4,12 +4,22 @@
     [mode]="isMobile? 'over': 'side'"
     [opened]=" isMobile? false: true"
   >
+    <div class="close-button-container">
+      <button mat-button (click)="drawer.close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
     <div class="cart-container">
       <app-cart [cart]="cart" (cartChange)="cartChange($event)"></app-cart>
     </div>
   </mat-drawer>
 
   <mat-drawer-content>
+    <div (click)="drawer.open()" *ngIf="!drawer.opened">
+      <button mat-raised-button>
+        <mat-icon>shopping_cart</mat-icon>
+      </button>
+    </div>
     <div class="chat-container" #scrollTarget>
       <div
         *ngFor="let chatItem of chatList"
