@@ -1,15 +1,15 @@
-<mat-toolbar *ngIf="showToolbar">
-  <img src="assets/images/lion-GPT.webp" alt="My Image" class="app-image" />
-
-  <span class="icon">Shopit</span>
-
-  <button mat-button [routerLink]="['/grocery-bot']">
-    <mat-icon>shopping_cart</mat-icon> Bot
+<mat-toolbar *ngIf="showToolbar" class="nav-bar">
+  <button mat-button class="icon" [routerLink]="['/grocery-bot']">
+    <div class="logo-container">
+      <img src="assets/images/lion-GPT.webp" alt="My Image" class="app-image" />
+      <span class="logo-text">Shopit GPT</span>
+    </div>
   </button>
-  <button mat-button [routerLink]="['/chat']">
-    <mat-icon>chat</mat-icon> Chat GPT
-  </button>
+
   <span class="navbar-spacer"> </span>
+  <button mat-button [routerLink]="['/chat']">
+    <mat-icon>chat</mat-icon> Chat
+  </button>
   <a href="https://github.com/zafrirdotan/AI-App" target="_blank">
     <div class="icon-container">
       <mat-icon svgIcon="github"></mat-icon>
