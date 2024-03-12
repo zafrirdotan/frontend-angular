@@ -21,16 +21,13 @@
 .cart-item {
   display: flex;
   padding-bottom: 0.5rem;
+  align-items: center;
   position: relative;
-  .add-submit-items-buttons {
-    position: absolute;
-    right: 0;
-    top: -1rem;
-  }
 }
 
 .item-name {
-  width: 8rem;
+  width: 11rem;
+  margin-right: 1rem;
 }
 
 .item-price {
@@ -40,7 +37,7 @@
 
 .item-quantity {
   padding: 0 0.5rem;
-  width: 6rem;
+  width: 3rem;
 }
 
 .alternatives {

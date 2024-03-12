@@ -90,8 +90,7 @@ export class GroceryBotPage implements OnInit {
       .getJSONCompletion(this.inputValue)
       .subscribe((action: any) => {
         const end = Date.now();
-        console.log('res', action);
-        console.log('time json', end - start);
+        console.log('action', action);
         this.inputValue = '';
         this.groceryBotService.setLastAction(action);
 

@@ -8,14 +8,26 @@
   <div class="cart-item-container" *ngFor="let item of cart; let i = index">
     <div class="cart-item">
       <div class="item-name">
-        {{ item.name }}
+        <mat-select
+          #select="matSelect"
+          [value]="item.name"
+          (selectionChange)="changeToAlternative($event.value, item, i)"
+        >
+          <mat-option [value]="item.name">{{ item.name }}</mat-option>
+          <mat-option
+            *ngFor="let alternative of item.alternatives"
+            [value]="alternative.name"
+          >
+            {{ alternative.name }}
+          </mat-option>
+        </mat-select>
       </div>
       <div class="item-price">
         {{ item.price }}
       </div>
       <div class="item-quantity">
         {{ item.quantity }}
-        {{ item.unit }}
+        {{ item.unit || "unit" }}
       </div>
       <div class="add-submit-items-buttons">
         <button
@@ -28,15 +40,6 @@
         <button mat-icon-button (click)="increaseQuantity(item)">
           <mat-icon>add</mat-icon>
         </button>
-      </div>
-    </div>
-    <div class="alternatives" *ngIf="item.alternatives?.length">
-      alternatives:
-      <div
-        *ngFor="let alt of item.alternatives | slice : 0 : 4"
-        class="alternative-item"
-      >
-        {{ alt.name }}
       </div>
     </div>
   </div>
