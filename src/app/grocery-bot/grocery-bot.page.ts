@@ -89,12 +89,16 @@ export class GroceryBotPage implements OnInit {
     this.chatCompSub = this.groceryBotService
       .getJSONCompletion(this.inputValue)
       .subscribe((action: any) => {
+        if (!action) {
+          this.isLoadingResponseMessage = false;
+          return;
+        }
         const end = Date.now();
         console.log('action', action);
         this.inputValue = '';
         this.groceryBotService.setLastAction(action);
 
-        if (action.cart) {
+        if (action?.cart) {
           this.cart = action.cart;
           this.groceryBotService.setCart(this.cart);
         }
