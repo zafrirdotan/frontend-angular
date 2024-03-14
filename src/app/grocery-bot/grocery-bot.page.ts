@@ -88,30 +88,32 @@ export class GroceryBotPage implements OnInit {
     this.isLoadingResponseMessage = true;
     this.chatCompSub = this.groceryBotService
       .getJSONCompletion(this.inputValue)
-      .subscribe((action: any) => {
-        if (!action) {
-          this.isLoadingResponseMessage = false;
-          return;
-        }
-        const end = Date.now();
-        console.log('action', action);
-        this.inputValue = '';
-        this.groceryBotService.setLastAction(action);
+      .subscribe({
+        next: (action: any) => {
+          if (!action) {
+            return;
+          }
+          const end = Date.now();
+          this.inputValue = '';
+          this.groceryBotService.setLastAction(action);
 
-        if (action?.cart) {
-          this.cart = action.cart;
-          this.groceryBotService.setCart(this.cart);
-        }
+          if (action?.cart) {
+            this.cart = action.cart;
+            this.groceryBotService.setCart(this.cart);
+          }
 
-        if (action.content) {
-          this.chatList.push({ content: action.content, role: 'assistant' });
+          if (action.content) {
+            this.chatList.push({ content: action.content, role: 'assistant' });
+            this.groceryBotService.setChat(this.chatList);
+          }
+
           this.groceryBotService.setChat(this.chatList);
-        }
-
-        this.groceryBotService.setChat(this.chatList);
-
-        this.scrollToEnd('smooth');
-        this.isLoadingResponseMessage = false;
+        },
+        error: () => {},
+        complete: () => {
+          setTimeout(() => this.scrollToEnd('smooth'), 0);
+          this.isLoadingResponseMessage = false;
+        },
       });
   }
 
