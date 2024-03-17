@@ -19,7 +19,7 @@ import { GroceryBotService } from './grocery-bot-service/grocery-bot.service';
 import { TextareaComponent } from './components/textarea/textarea.component';
 import { ICartItem } from '../interfaces/grocery-bot';
 import { CartComponent } from './components/cart/cart.component';
-import { Language } from './crocery-bot-response-dictionary';
+import { GroceryResponseBody } from '../interfaces/chet-response';
 
 @Component({
   selector: 'app-grocery-bot',
@@ -89,22 +89,23 @@ export class GroceryBotPage implements OnInit {
     this.chatCompSub = this.groceryBotService
       .getJSONCompletion(this.inputValue)
       .subscribe({
-        next: (action: any) => {
-          if (!action) {
+        next: (response: GroceryResponseBody) => {
+          if (!response) {
             return;
           }
-          const end = Date.now();
           this.inputValue = '';
-          this.groceryBotService.setLastAction(action);
+          this.groceryBotService.setLastAction(response.action);
 
-          if (action?.cart) {
-            this.cart = action.cart;
+          if (response?.cart) {
+            this.cart = response.cart;
             this.groceryBotService.setCart(this.cart);
           }
 
-          if (action.content) {
-            this.chatList.push({ content: action.content, role: 'assistant' });
-            this.groceryBotService.setChat(this.chatList);
+          if (response.message) {
+            this.chatList.push({
+              content: response.message,
+              role: 'assistant',
+            });
           }
 
           this.groceryBotService.setChat(this.chatList);

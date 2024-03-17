@@ -1,41 +1,49 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ChatMassageItem } from 'src/app/interfaces/chat-item';
-import { EventSourceService } from 'src/app/services/event-source-service/event-source.service';
 import { LocalStorageService } from 'src/app/services/local-storage-service/local-storage.service';
 import { ICartItem } from 'src/app/interfaces/grocery-bot';
 import { responseDictionary } from '../crocery-bot-response-dictionary';
+import { Action } from 'src/app/interfaces/chet-response';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GroceryBotService {
-
   private readonly baseUrl = 'grocery-bot-v2';
   private readonly chatId = 'grocery-bot';
 
-  private readonly defaultMessages: ChatMassageItem[] = [{
-    content: responseDictionary.introductionMessage.en(),
-    role: 'assistant',
-  }]
+  private readonly defaultMessages: ChatMassageItem[] = [
+    {
+      content: responseDictionary.introductionMessage.en(),
+      role: 'assistant',
+    },
+  ];
 
-  constructor(private localStorageService: LocalStorageService, private eventService: EventSourceService, private httpClient: HttpClient) { }
+  constructor(
+    private localStorageService: LocalStorageService,
+
+    private httpClient: HttpClient
+  ) {}
 
   getJSONCompletion(message: string): any {
     // let messages = this.localStorageService.getItem(this.chatId) || [];
 
     const prompt = this.createMessageObject(message);
     // messages.push(prompt);
-    return this.httpClient.post(this.baseUrl, { message: prompt, cart: this.getCart(), lastAction: this.getLastAction() });
+    return this.httpClient.post(this.baseUrl, {
+      message: prompt,
+      cart: this.getCart(),
+      lastAction: this.getLastAction(),
+    });
   }
 
   private createMessageObject(content: string): any {
     return {
       role: 'user',
-      content: content
+      content: content,
     };
   }
-
 
   getChat(): ChatMassageItem[] {
     const chat = this.localStorageService.getItem(this.chatId);
@@ -55,7 +63,6 @@ export class GroceryBotService {
     this.localStorageService.removeItem(this.chatId);
   }
 
-
   setCart(cart: ICartItem[]): void {
     this.localStorageService.setItem('cart', cart);
   }
@@ -68,13 +75,11 @@ export class GroceryBotService {
     this.localStorageService.removeItem('cart');
   }
 
-
-  setLastAction(fullAction: { action: string, list: any[] }) {
-    this.localStorageService.setItem('lastAction', fullAction);
+  setLastAction(action: Action) {
+    this.localStorageService.setItem('lastAction', action);
   }
 
   getLastAction() {
     return this.localStorageService.getItem('lastAction');
   }
 }
-
