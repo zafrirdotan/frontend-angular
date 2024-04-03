@@ -17,6 +17,7 @@ export interface GroceryResponseBody {
   cart: ICartItem[];
   action: Action;
   lastAction: Action;
+  items?: ICartItem[];
 }
 
 export interface Action {

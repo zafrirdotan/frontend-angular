@@ -22,9 +22,9 @@ export class AssistantMessageComponent {
   private _message: massageContentItem[] = [];
 
   @Input() public set message(value: string) {
-    const parts = value.split('```');
+    const parts = value?.split('```');
 
-    const messageContentItems: massageContentItem[] = parts.map(
+    const messageContentItems: massageContentItem[] = parts?.map(
       (part, index) => {
         // If the index is even, it's a text part
         if (index % 2 === 0) {

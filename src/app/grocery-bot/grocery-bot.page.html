@@ -10,7 +10,10 @@
       </button>
     </div>
     <div class="cart-container">
-      <app-cart [cart]="cart" (cartChange)="cartChange($event)"></app-cart>
+      <app-cart
+        [cart]="(cart$ | async) || []"
+        (cartChange)="cartChange($event)"
+      ></app-cart>
     </div>
   </mat-drawer>
 
@@ -22,7 +25,7 @@
     </div>
     <div class="chat-container" #scrollTarget>
       <div
-        *ngFor="let chatItem of chatList"
+        *ngFor="let chatItem of chat$ | async"
         class="message-container"
         [ngClass]="{'bot-message': chatItem.role === 'assistant'}"
       >
@@ -77,7 +80,7 @@
           mat-icon-button
           aria-label="Clear"
           (click)="sendMessage()"
-          *ngIf="!isLoadingResponseMessage; else loader;"
+          *ngIf="!(this.isLoading$ |async); else loader;"
         >
           <mat-icon>send</mat-icon>
         </button>

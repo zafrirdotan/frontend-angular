@@ -13,13 +13,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AssistantMessageComponent } from '../components/assistant-message/assistant-message.component';
 import { ChatLoaderComponent } from '../components/chat-loader/chat-loader.component';
 import { HighlightCodeDirective } from '../directives/highlight-code.directive';
-import { ChatMassageItem } from '../interfaces/chat-item';
-import { Subscription } from 'rxjs';
 import { GroceryBotService } from './grocery-bot-service/grocery-bot.service';
 import { TextareaComponent } from './components/textarea/textarea.component';
 import { ICartItem } from '../interfaces/grocery-bot';
 import { CartComponent } from './components/cart/cart.component';
-import { GroceryResponseBody } from '../interfaces/chet-response';
 
 @Component({
   selector: 'app-grocery-bot',
@@ -51,30 +48,20 @@ export class GroceryBotPage implements OnInit {
   @ViewChild('scrollTarget', { static: false }) scrollTarget!: ElementRef;
 
   public inputValue: string = '';
-  isLoadingResponseMessage: boolean = false;
-  private chatCompSub: Subscription | undefined;
-
-  public chatList: ChatMassageItem[] = [];
-
-  public lastMessage: string = '';
-
-  public cart: ICartItem[] = [];
+  public chat$ = this.groceryBotService.chat$;
+  public cart$ = this.groceryBotService.cart$;
+  public isLoading$ = this.groceryBotService.loading$;
 
   constructor(private groceryBotService: GroceryBotService) {}
 
-  ngOnInit(): void {
-    this.chatList = this.groceryBotService.getChat();
-    this.cart = this.groceryBotService.getCart() || [];
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit() {
     this.scrollToEnd('instant');
   }
 
-  ngOnDestroy() {
-    if (this.chatCompSub) {
-      this.chatCompSub.unsubscribe();
-    }
+  ngAfterViewChecked() {
+    this.scrollToEnd();
   }
 
   sendMessage() {
@@ -82,40 +69,8 @@ export class GroceryBotPage implements OnInit {
   }
 
   getJsonList() {
-    const start = Date.now();
-
-    this.chatList.push({ content: this.inputValue, role: 'user' });
-    this.isLoadingResponseMessage = true;
-    this.chatCompSub = this.groceryBotService
-      .getJSONCompletion(this.inputValue)
-      .subscribe({
-        next: (response: GroceryResponseBody) => {
-          if (!response) {
-            return;
-          }
-          this.inputValue = '';
-          this.groceryBotService.setLastAction(response.action);
-
-          if (response?.cart) {
-            this.cart = response.cart;
-            this.groceryBotService.setCart(this.cart);
-          }
-
-          if (response.message) {
-            this.chatList.push({
-              content: response.message,
-              role: 'assistant',
-            });
-          }
-
-          this.groceryBotService.setChat(this.chatList);
-        },
-        error: () => {},
-        complete: () => {
-          setTimeout(() => this.scrollToEnd('smooth'), 0);
-          this.isLoadingResponseMessage = false;
-        },
-      });
+    this.groceryBotService.groceryBotCompilation(this.inputValue);
+    this.inputValue = '';
   }
 
   get isMobile() {
@@ -135,8 +90,6 @@ export class GroceryBotPage implements OnInit {
   }
 
   cartChange(cart: ICartItem[]) {
-    this.cart = cart;
-
-    this.groceryBotService.setCart(this.cart);
+    this.groceryBotService.setCart(cart);
   }
 }
