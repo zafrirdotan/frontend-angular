@@ -33,18 +33,17 @@
           <div class="avatar">
             <mat-icon class="user-avatar">account_circle</mat-icon>You
           </div>
-          <div class="message-content">{{ chatItem.content }}</div>
+          <div
+            class="message-content user-message"
+            [appMarkdown]="chatItem.content"
+          ></div>
         </div>
 
         <div *ngIf="chatItem.role === 'assistant'" class="message bot-message">
           <div class="avatar">
             <mat-icon class="gpt-avatar">shopping_cart</mat-icon>Cart bot
           </div>
-          <div class="message-content">
-            <app-assistant-message
-              [message]="chatItem.content"
-            ></app-assistant-message>
-          </div>
+          <div class="message-content" [appMarkdown]="chatItem.content"></div>
         </div>
       </div>
 
@@ -67,26 +66,27 @@
 
     <div class="message-input-container">
       <mat-form-field class="message-input" appearance="outline">
-        <input
+        <textarea
+          [formControl]="messageInput"
+          #messageInputField
           matInput
-          type="text"
-          [(ngModel)]="inputValue"
           placeholder="Send a massage."
-          (keydown.enter)="sendMessage()"
-        />
+          (keydown.enter)="sendMessage($event)"
+          appAutoResize="true"
+        ></textarea>
 
         <button
-          matSuffix
           mat-icon-button
-          aria-label="Clear"
-          (click)="sendMessage()"
+          aria-label="send message"
+          class="send-button"
+          (click)="sendMessage($event)"
           *ngIf="!(this.isLoading$ |async); else loader;"
         >
           <mat-icon>send</mat-icon>
         </button>
 
         <ng-template #loader>
-          <app-chat-loader matSuffix></app-chat-loader>
+          <app-chat-loader class="send-button"></app-chat-loader>
         </ng-template>
       </mat-form-field>
     </div>

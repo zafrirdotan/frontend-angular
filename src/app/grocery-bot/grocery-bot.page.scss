@@ -1,5 +1,5 @@
 .chat-container {
-  height: calc(100vh - 64px - 110px);
+  height: calc(100vh - 64px - 115px);
   overflow-y: scroll;
   overflow-x: hidden;
 }
@@ -43,6 +43,9 @@
       margin-top: 0.5rem;
       padding-left: 2.2rem;
     }
+    .user-message {
+      white-space: pre-wrap;
+    }
     .user-avatar {
       background: black;
       color: white;
@@ -57,13 +60,24 @@
   display: flex;
   justify-content: center;
   padding-top: 25px;
+  position: relative;
+  height: 5.5rem;
 
   .message-input {
+    position: absolute;
+    bottom: 0;
+    overflow: auto;
     width: 50%;
+    background-color: white;
 
     @media (max-width: 768px) {
       width: 96%;
     }
+  }
+  .send-button {
+    position: absolute;
+    bottom: 0.3rem;
+    right: -0.5rem;
   }
 }
 
@@ -77,4 +91,13 @@
 
 .cart-title {
   padding: 0 1rem;
+}
+
+textarea {
+  overflow: hidden;
+  resize: none;
+}
+
+textarea#mat-input-0 {
+  height: 1.5rem;
 }

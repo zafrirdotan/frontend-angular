@@ -1,4 +1,4 @@
-import { NgFor, NgIf, SlicePipe } from '@angular/common';
+import { CurrencyPipe, NgFor, NgIf, SlicePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -19,11 +19,19 @@ import { MatSelectModule } from '@angular/material/select';
     SlicePipe,
     NgIf,
     MatSelectModule,
+    CurrencyPipe,
   ],
 })
 export class CartComponent {
   @Input() cart: ICartItem[] = [];
   @Output() cartChange = new EventEmitter<ICartItem[]>();
+
+  get total() {
+    return this.cart.reduce(
+      (acc, item) => acc + (item.price ?? 0) * item.quantity,
+      0
+    );
+  }
 
   changeToAlternative(selectedAltName: string, item: ICartItem, index: number) {
     // find the selected alternative

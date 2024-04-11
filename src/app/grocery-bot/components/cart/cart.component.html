@@ -44,6 +44,7 @@
       </div>
     </div>
   </div>
+  <div class="total-price">Total: {{ total | currency : "USD" }}</div>
 </div>
 <button mat-raised-button color="primary" class="pay-button" (click)="payNow()">
   Pay Now

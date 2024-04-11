@@ -2,6 +2,7 @@
   height: calc(100vh - 64px - 153px);
   padding: 1rem;
   overflow-y: scroll;
+  position: relative;
 }
 
 .cart-item-container {
@@ -56,6 +57,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+}
+
+.total-price {
+  font-weight: bold;
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
 }
 
 .pay-button {
