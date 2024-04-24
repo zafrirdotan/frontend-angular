@@ -113,15 +113,43 @@ textarea#mat-input-0 {
   display: flex;
   width: max-content;
 }
+.product-image-container {
+  height: 5rem;
+}
+
 .available-item {
-  width: 9rem;
+  width: 8rem;
   margin: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  cursor: pointer;
+  position: relative;
 }
 
-.product-image-container {
-  height: 5rem;
-  background: aquamarine;
+.available-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-right: 45px solid transparent;
+  border-top: 45px solid #00000069;
+}
+
+.details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-image {
+  width: 100%;
+}
+.add-to-cart-icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: white;
 }

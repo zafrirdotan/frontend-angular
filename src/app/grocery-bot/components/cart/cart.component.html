@@ -1,7 +1,7 @@
 <div class="cart-header cart-item-container">
   <div class="item-name">Item</div>
-  <div class="item-price">Price</div>
-  <div class="item-quantity">Quantity</div>
+  <!-- <div class="item-price">Price</div>
+  <div class="item-quantity">Quantity</div> -->
 </div>
 <div class="cart-container">
   <div class="cart-item-container" *ngFor="let item of cart; let i = index">
@@ -11,9 +11,26 @@
           #select="matSelect"
           [value]="item.name"
           (selectionChange)="changeToAlternative($event.value, item, i)"
+          panelWidth="350px"
         >
-          <mat-option [value]="item.name"
-            >{{ item.emoji }} {{ item.name }}
+          <mat-select-trigger>
+            <div class="item-select-panel">
+              <img
+                [src]="'https://source.unsplash.com/' + item.imgUrl"
+                class="option-image"
+              />
+              <div class="option-name">{{ item.name }}</div>
+            </div>
+          </mat-select-trigger>
+          <mat-option [value]="item.name">
+            <div class="item-select-panel">
+              <img
+                [src]="'https://source.unsplash.com/' + item.imgUrl"
+                class="option-image"
+              />
+              <div class="option-name">{{ item.name }}</div>
+              <div class="option-price">{{ item.price }}$</div>
+            </div>
           </mat-option>
           <mat-option
             *ngFor="let alternative of item.alternatives"
@@ -23,9 +40,9 @@
           </mat-option>
         </mat-select>
       </div>
-      <div class="item-price">
-        {{ item.price }}
-      </div>
+      <div class="item-price">{{ item.price }}$</div>
+    </div>
+    <div class="item-quantity-container">
       <div class="item-quantity">
         {{ item.quantity }}
         {{ item.unit || "unit" }}

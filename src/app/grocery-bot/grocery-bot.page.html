@@ -68,23 +68,21 @@
                       class="available-item"
                       (click)="addItemToCart(product)"
                     >
+                      <mat-icon class="add-to-cart-icon"
+                        >add_shopping_cart</mat-icon
+                      >
                       <div class="product-image-container">
-                        <div class="product-image-overlay">
-                          <mat-icon>add_shopping_cart</mat-icon>
-                        </div>
                         <img
                           *ngIf="product.imgUrl"
-                          [src]="product.imgUrl"
+                          [src]="'https://source.unsplash.com/'+ product.imgUrl"
                           alt="product image"
                           class="product-image"
                         />
-                        <div
-                          *ngIf="!product.imgUrl"
-                          class="product-image"
-                        ></div>
                       </div>
-                      <div class="product-name">{{ product.name }}</div>
-                      <div class="product-price">{{ product.price }}</div>
+                      <div class="details">
+                        <div class="product-name">{{ product.name }}</div>
+                        <div class="product-price">{{ product.price }}$</div>
+                      </div>
                     </div>
                   </div>
                 </div>
