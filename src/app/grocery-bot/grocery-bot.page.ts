@@ -120,4 +120,8 @@ export class GroceryBotPage implements OnInit {
   cartChange(cart: ICartItem[]) {
     this.groceryBotService.setCart(cart);
   }
+
+  addItemToCart(product: ICartItem) {
+    this.groceryBotService.addItemToCart(product);
+  }
 }

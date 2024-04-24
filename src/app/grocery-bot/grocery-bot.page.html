@@ -43,7 +43,54 @@
           <div class="avatar">
             <mat-icon class="gpt-avatar">shopping_cart</mat-icon>Cart bot
           </div>
-          <div class="message-content" [appMarkdown]="chatItem.content"></div>
+          <div
+            class="message-content"
+            *ngIf="chatItem.actionType !== 'showAvailableProducts'"
+            [appMarkdown]="chatItem.content"
+          ></div>
+          <div
+            class="message-content"
+            *ngIf="chatItem.actionType === 'showAvailableProducts'"
+          >
+            I found some products for you
+            <div class="products-container">
+              <div
+                *ngFor="let category of chatItem.availableItems"
+                class="product-container"
+              >
+                <div class="product-category">
+                  For {{ category.searchTerm }} I found
+                </div>
+                <div class="product-items-slider">
+                  <div class="product-items">
+                    <div
+                      *ngFor="let product of category.items"
+                      class="available-item"
+                      (click)="addItemToCart(product)"
+                    >
+                      <div class="product-image-container">
+                        <div class="product-image-overlay">
+                          <mat-icon>add_shopping_cart</mat-icon>
+                        </div>
+                        <img
+                          *ngIf="product.imgUrl"
+                          [src]="product.imgUrl"
+                          alt="product image"
+                          class="product-image"
+                        />
+                        <div
+                          *ngIf="!product.imgUrl"
+                          class="product-image"
+                        ></div>
+                      </div>
+                      <div class="product-name">{{ product.name }}</div>
+                      <div class="product-price">{{ product.price }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

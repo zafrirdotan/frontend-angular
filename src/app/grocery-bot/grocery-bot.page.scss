@@ -14,7 +14,7 @@
   padding: 1rem;
 
   .message {
-    width: 60%;
+    // width: 60%;
     margin: auto;
 
     @media (max-width: 768px) {
@@ -100,4 +100,28 @@ textarea {
 
 textarea#mat-input-0 {
   height: 1.5rem;
+}
+
+.product-container {
+}
+.product-items-slider {
+  overflow-x: auto;
+  width: 100%;
+  padding: 1rem;
+}
+.product-items {
+  display: flex;
+  width: max-content;
+}
+.available-item {
+  width: 9rem;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product-image-container {
+  height: 5rem;
+  background: aquamarine;
 }

@@ -50,7 +50,7 @@ export interface AssistantMessageParams {
   actionType: AssistantAction;
   shortContentMessage?: string;
   cart?: ICartItem[];
-  availableItems?: IAvailableItems;
+  availableItems?: IAvailableItems[];
   unavailableItems?: ICartItem[];
 }
 
@@ -66,6 +66,7 @@ export interface ICartItem {
   category?: string;
   emoji?: string;
   alternatives?: ICartItem[];
+  imgUrl?: string;
 }
 
 export interface IAvailableItems {

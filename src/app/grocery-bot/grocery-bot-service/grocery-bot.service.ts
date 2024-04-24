@@ -124,4 +124,18 @@ export class GroceryBotService {
   getLastAction() {
     return this.localStorageService.getItem('lastAction');
   }
+
+  addItemToCart(product: ICartItem) {
+    const cart = this.getCart();
+    const existingProduct = cart.find((item) => item.name === product.name);
+
+    if (existingProduct) {
+      existingProduct.quantity += 1;
+    } else {
+      product.quantity = 1;
+      cart.push(product);
+    }
+
+    this.setCart(cart);
+  }
 }
