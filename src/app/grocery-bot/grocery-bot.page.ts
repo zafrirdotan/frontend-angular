@@ -15,7 +15,10 @@ import { ChatLoaderComponent } from '../components/chat-loader/chat-loader.compo
 import { HighlightCodeDirective } from '../directives/highlight-code.directive';
 import { GroceryBotService } from './grocery-bot-service/grocery-bot.service';
 import { TextareaComponent } from './components/textarea/textarea.component';
-import { ICartItem } from '../interfaces/grocery-bot';
+import {
+  GroceryBotCompletionParam,
+  ICartItem,
+} from '../interfaces/grocery-bot';
 import { CartComponent } from './components/cart/cart.component';
 import { AutoResizeDirective } from '../directives/auto-resize.directive';
 import { Subscription } from 'rxjs';
@@ -123,5 +126,9 @@ export class GroceryBotPage implements OnInit {
 
   addItemToCart(product: ICartItem) {
     this.groceryBotService.addItemToCart(product);
+  }
+
+  trackBy(index: number, chatItem: GroceryBotCompletionParam) {
+    return chatItem.content; // Use index as the trackBy identifier
   }
 }

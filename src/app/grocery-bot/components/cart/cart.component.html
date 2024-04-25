@@ -1,10 +1,8 @@
-<div class="cart-header cart-item-container">
-  <div class="item-name">Item</div>
-  <!-- <div class="item-price">Price</div>
-  <div class="item-quantity">Quantity</div> -->
-</div>
 <div class="cart-container">
-  <div class="cart-item-container" *ngFor="let item of cart; let i = index">
+  <div
+    class="cart-item-container"
+    *ngFor="let item of cart; let i = index; trackBy: trackItem"
+  >
     <div class="cart-item">
       <div class="item-name">
         <mat-select

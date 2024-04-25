@@ -81,4 +81,8 @@ export class CartComponent {
   payNow() {
     console.log('pay now');
   }
+
+  trackItem(index: number, item: ICartItem) {
+    return item.productId ?? item.name;
+  }
 }

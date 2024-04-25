@@ -25,7 +25,7 @@
     </div>
     <div class="chat-container" #scrollTarget>
       <div
-        *ngFor="let chatItem of chat$ | async"
+        *ngFor="let chatItem of chat$ | async; trackBy: trackBy "
         class="message-container"
         [ngClass]="{'bot-message': chatItem.role === 'assistant'}"
       >
