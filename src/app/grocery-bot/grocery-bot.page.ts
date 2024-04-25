@@ -128,6 +128,18 @@ export class GroceryBotPage implements OnInit {
     this.groceryBotService.addItemToCart(product);
   }
 
+  addItemToCartOnClick(product: ICartItem) {
+    if (!this.isMobile) {
+      this.addItemToCart(product);
+    }
+  }
+
+  addItemToCartOnTouch(product: ICartItem) {
+    if (this.isMobile) {
+      this.addItemToCart(product);
+    }
+  }
+
   trackBy(index: number, chatItem: GroceryBotCompletionParam) {
     return chatItem.content; // Use index as the trackBy identifier
   }
