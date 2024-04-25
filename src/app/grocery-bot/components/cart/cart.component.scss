@@ -4,6 +4,10 @@
   padding: 1rem;
   overflow-y: scroll;
   position: relative;
+
+  @media (max-width: 700px) {
+    width: 20rem;
+  }
 }
 
 .cart-item-container {
@@ -33,6 +37,10 @@
 .item-name {
   width: fit-content;
   margin-right: 1rem;
+
+  @media (max-width: 700px) {
+    width: 15rem;
+  }
 }
 
 .item-price {
