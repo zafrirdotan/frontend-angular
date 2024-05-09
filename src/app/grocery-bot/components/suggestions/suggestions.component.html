@@ -1,0 +1,13 @@
+<div class="suggestions-container">
+  <div class="suggestions">
+    <div class="suggestion" *ngFor="let suggestion of suggestions">
+      <button
+        mat-stroked-button
+        (click)="useSuggestion(suggestion)"
+        class="suggestion-button"
+      >
+        <div class="suggestio-text">{{ suggestion }}</div>
+      </button>
+    </div>
+  </div>
+</div>

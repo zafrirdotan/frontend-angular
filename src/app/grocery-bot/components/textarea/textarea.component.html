@@ -1,7 +1,27 @@
-<div class="full-width notepad">
-    <textarea matInput placeholder="Enter list" [(ngModel)]="textValue"></textarea>
-    <button mat-raised-button color="primary" class="add-button" (click)="addToCart()">
-        Add to Cart
-        <mat-icon>add</mat-icon>
+<div class="message-input-container">
+  <mat-form-field class="message-input" appearance="outline">
+    <textarea
+      [formControl]="messageInput"
+      #messageInputField
+      matInput
+      placeholder="Send a massage."
+      (keydown.enter)="sendMessage($event)"
+      appAutoResize="true"
+    ></textarea>
+
+    <button
+      mat-icon-button
+      aria-label="send message"
+      class="send-button"
+      (click)="sendMessage($event)"
+      *ngIf="!(this.isLoading$ | async); else loader"
+    >
+      <mat-icon>send</mat-icon>
     </button>
+
+    <ng-template #loader>
+      <app-chat-loader class="send-button"></app-chat-loader>
+    </ng-template>
+  </mat-form-field>
+  <!-- clear chat btn-->
 </div>

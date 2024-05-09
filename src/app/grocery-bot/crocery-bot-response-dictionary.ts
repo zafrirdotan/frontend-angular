@@ -16,7 +16,8 @@ export const responseDictionary: {
     he: () =>
       'שלום, אני עוזר הקניות שלך. תוכל לכתוב לי את רשימת הקניות שלך בטקסט פשוט ואני אוסיף אותה לעגלה שלך',
     en: () =>
-      "Hi there! 👋 Welcome to our grocery store. I'm here to make your shopping experience as smooth and enjoyable as possible. Feel free to share your shopping list, add or remove specific products, or ask me anything about what we offer - be it product details, stock availability, or help with choosing the perfect item. If you're not sure where to start, just ask me about any product you have in mind. How can I assist you today?",
+      `Hi, I am tamara your shopping assistant.
+      \nYou can ask me anything about our store or ask me to add items to your cart. I'm here to help you with your shopping.`,
   },
   addingItemsToCart: {
     he: () => 'הפרטים נוספו לעגלה שלך',

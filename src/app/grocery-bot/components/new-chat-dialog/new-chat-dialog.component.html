@@ -1,0 +1,35 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h1>New Chat</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="dialog-content">
+      <p>Are you sure you want to create a new chat?</p>
+      <p>This will clear the current chat.</p>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button class="dialog-button" (click)="close()">
+      no
+    </button>
+    <button
+      mat-raised-button
+      cdkFocusInitial
+      color="primary"
+      (click)="createNewChat()"
+      class="dialog-button"
+    >
+      Yes
+    </button>
+    <button
+      mat-raised-button
+      color="warn"
+      class="dialog-button"
+      (click)="createNewChat(true)"
+    >
+      Yes and Clear the Cart
+    </button>
+  </mat-card-actions>
+</mat-card>

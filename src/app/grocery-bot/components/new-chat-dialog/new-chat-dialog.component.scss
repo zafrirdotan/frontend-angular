@@ -1,0 +1,10 @@
+.dialog-content {
+  height: 5rem;
+}
+
+.dialog-button {
+  margin: 0 0.5rem;
+  @media screen and (max-width: 768px) {
+    height: 4rem;
+  }
+}

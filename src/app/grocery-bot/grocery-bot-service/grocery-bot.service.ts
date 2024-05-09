@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ChatMassageItem } from 'src/app/interfaces/chat-item';
 import { LocalStorageService } from 'src/app/services/local-storage-service/local-storage.service';
 import {
   AssistantAction,
@@ -97,9 +96,10 @@ export class GroceryBotService {
     return chat;
   }
 
-  deleteChat(): void {
-    this.localStorageService.removeItem(this.chatId);
-    this.addToChat(this.defaultMessage);
+  resetChat(): void {
+    const newChat = [this.defaultMessage];
+    this.localStorageService.setItem(this.chatId, newChat);
+    this.chatSubject.next(newChat);
   }
 
   // Cart methods
@@ -113,8 +113,9 @@ export class GroceryBotService {
     return this.localStorageService.getItem('cart') || [];
   }
 
-  deleteCart(): void {
-    this.localStorageService.removeItem('cart');
+  resetCart(): void {
+    this.localStorageService.setItem('cart', []);
+    this.cartSubject.next([]);
   }
 
   setLastAction(action: Action) {
@@ -137,5 +138,9 @@ export class GroceryBotService {
     }
 
     this.setCart(cart);
+  }
+
+  clearChat() {
+    this.setCart([]);
   }
 }

@@ -1,4 +1,8 @@
 <div class="cart-container">
+  <div class="cart-header">
+    <mat-icon>shopping_cart_outline</mat-icon>
+    <div class="cart-title">Your Cart</div>
+  </div>
   <div
     class="cart-item-container"
     *ngFor="let item of cart; let i = index; trackBy: trackItem"
@@ -59,8 +63,15 @@
       </div>
     </div>
   </div>
-  <div class="total-price">Total: {{ total | currency : "USD" }}</div>
 </div>
-<button mat-raised-button color="primary" class="pay-button" (click)="payNow()">
-  Pay Now
-</button>
+<div class="cart-footer">
+  <div class="total-price">Total: {{ total | currency : "USD" }}</div>
+  <button
+    mat-raised-button
+    color="primary"
+    class="pay-button"
+    (click)="payNow()"
+  >
+    Pay Now
+  </button>
+</div>

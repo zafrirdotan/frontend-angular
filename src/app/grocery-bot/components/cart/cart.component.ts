@@ -1,5 +1,11 @@
 import { CurrencyPipe, NgFor, NgIf, SlicePipe } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,6 +27,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule,
     CurrencyPipe,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartComponent {
   @Input() cart: ICartItem[] = [];

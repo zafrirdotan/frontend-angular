@@ -1,29 +1,62 @@
-import { TextFieldModule } from '@angular/cdk/text-field';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { Subscription } from 'rxjs';
+import { GroceryBotService } from '../../grocery-bot-service/grocery-bot.service';
+import { CommonModule, NgIf } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { ChatLoaderComponent } from 'src/app/components/chat-loader/chat-loader.component';
 
 @Component({
   selector: 'app-textarea',
   templateUrl: './textarea.component.html',
   styleUrls: ['./textarea.component.scss'],
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, NgIf, MatButtonModule, MatIconModule, NgFor, CommonModule, TextFieldModule],
-
+  imports: [
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    FormsModule,
+    NgIf,
+    MatButtonModule,
+    MatIconModule,
+    ChatLoaderComponent,
+    CommonModule,
+  ],
 })
 export class TextareaComponent {
-  public textValue: string = '';
+  @ViewChild('messageInputField') messageInputField: ElementRef | undefined;
 
-  @Output() onSubmit = new EventEmitter<string>();
+  public messageInput: FormControl = new FormControl('');
+  public isLoading$ = this.groceryBotService.loading$;
+  private isLoadingSub: Subscription = new Subscription();
 
-  addToCart() {
-    console.log('addToCart', this.textValue);
+  constructor(private groceryBotService: GroceryBotService) {}
 
-    this.onSubmit.emit(this.textValue);
+  ngOnInit(): void {
+    this.isLoadingSub = this.isLoading$.subscribe((isLoading) => {
+      if (isLoading) {
+        this.messageInput.disable();
+      } else {
+        this.messageInput.enable();
+        this.messageInputField?.nativeElement.focus();
+      }
+    });
   }
 
+  ngOnDestroy() {
+    this.isLoadingSub.unsubscribe();
+  }
+
+  sendMessage(event: Event) {
+    event.preventDefault();
+    this.getJsonList();
+  }
+
+  getJsonList() {
+    this.groceryBotService.groceryBotCompilation(this.messageInput.value);
+    this.messageInput.reset();
+  }
 }

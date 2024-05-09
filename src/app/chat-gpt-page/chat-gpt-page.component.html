@@ -76,7 +76,10 @@
           ></app-assistant-message>
         </div>
       </div>
-      <div *ngIf="this.isLoadingResponseMessage" class="message-container">
+      <div
+        *ngIf="this.isLoadingResponseMessage"
+        class="message-container bot-message"
+      >
         <div class="message bot-message">
           <div class="avatar gpt-avatar">GPT</div>
           <app-assistant-message

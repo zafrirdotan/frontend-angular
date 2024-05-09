@@ -1,0 +1,82 @@
+<div class="chat-container">
+  <div #scrollTarget class="chat-list">
+    <div
+      *ngFor="let chatItem of chat; trackBy: trackBy"
+      class="message-container"
+      [ngClass]="{ 'bot-message': chatItem.role === 'assistant' }"
+    >
+      <div *ngIf="chatItem.role === 'user'" class="message user-message">
+        <div class="avatar">
+          <div class="user-avatar">
+            <div class="avatar-letter">Y</div>
+          </div>
+          You
+        </div>
+        <div
+          class="message-content user-message"
+          [appMarkdown]="chatItem.content"
+        ></div>
+      </div>
+
+      <div *ngIf="chatItem.role === 'assistant'" class="message bot-message">
+        <div class="avatar">
+          <img
+            src="assets/images/tamara.webp"
+            alt="My Image"
+            class="tamara-avatar"
+          />
+
+          Tamara
+        </div>
+        <div
+          class="message-content"
+          *ngIf="chatItem.actionType !== 'showAvailableProducts'"
+          [appMarkdown]="chatItem.content"
+        ></div>
+        <div
+          class="message-content"
+          *ngIf="chatItem.actionType === 'showAvailableProducts'"
+        >
+          I found some products for you
+          <div class="products-container">
+            <div
+              *ngFor="let category of chatItem.availableItems"
+              class="product-container"
+            >
+              <div class="product-category">
+                For {{ category.searchTerm }} I found
+              </div>
+              <div class="product-items-slider">
+                <div class="product-items">
+                  <div
+                    *ngFor="let product of category.items"
+                    class="available-item"
+                    (click)="addItemToCartOnClick(product)"
+                    (touchstart)="addItemToCartOnTouch(product)"
+                  >
+                    <mat-icon class="add-to-cart-icon"
+                      >add_shopping_cart</mat-icon
+                    >
+                    <div class="product-image-container">
+                      <img
+                        *ngIf="product.imgUrl"
+                        [src]="'https://source.unsplash.com/' + product.imgUrl"
+                        alt="product image"
+                        class="product-image"
+                      />
+                    </div>
+                    <div class="details">
+                      <div class="product-name">{{ product.name }}</div>
+                      <div class="product-price">{{ product.price }}$</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-suggestions *ngIf="chat.length === 1"></app-suggestions>
+</div>

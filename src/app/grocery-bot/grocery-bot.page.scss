@@ -1,7 +1,7 @@
-.chat-container {
-  height: calc(100vh - 64px - 115px);
-  overflow-y: scroll;
-  overflow-x: hidden;
+.drawer-header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .close-button-container {
@@ -10,148 +10,10 @@
   z-index: 1;
 }
 
-.message-container {
-  margin: auto;
-  padding: 1rem;
-
-  .message {
-    // width: 60%;
-    margin: auto;
-
-    @media (max-width: 768px) {
-      margin: 0;
-      width: 100%;
-    }
-
-    .avatar {
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      width: 8rem;
-    }
-
-    .gpt-avatar {
-      border: 2px solid rgb(85, 78, 78);
-      border-radius: 50%;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 0.5rem;
-    }
-
-    .message-content {
-      margin-top: 0.5rem;
-      padding-left: 2.2rem;
-    }
-    .user-message {
-      white-space: pre-wrap;
-    }
-    .user-avatar {
-      background: black;
-      color: white;
-      border-radius: 50%;
-      margin-right: 0.5rem;
-    }
-  }
+.chat-actions {
+  float: right;
 }
 
-.message-input-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding-top: 25px;
-  position: relative;
-  height: 5.5rem;
-
-  .message-input {
-    position: absolute;
-    bottom: 0;
-    overflow: auto;
-    width: 50%;
-    background-color: white;
-
-    @media (max-width: 768px) {
-      width: 96%;
-    }
-  }
-  .send-button {
-    position: absolute;
-    bottom: 0.3rem;
-    right: -0.5rem;
-  }
-}
-
-.list-massage {
-  padding: 0 1rem;
-}
-
-.sidenav-content {
-  width: 26rem;
-}
-
-.cart-title {
-  padding: 0 1rem;
-}
-
-textarea {
-  overflow: hidden;
-  resize: none;
-}
-
-textarea#mat-input-0 {
-  height: 1.5rem;
-}
-
-.product-container {
-}
-.product-items-slider {
-  overflow-x: auto;
-  width: 100%;
-  padding: 1rem;
-}
-.product-items {
-  display: flex;
-  width: max-content;
-}
-.product-image-container {
-  height: 5rem;
-  overflow-y: hidden;
-}
-
-.available-item {
-  width: 8rem;
-  margin: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-  position: relative;
-}
-
-.available-item::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 0;
-  border-right: 45px solid transparent;
-  border-top: 45px solid #00000069;
-}
-
-.details {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.product-image {
-  width: 100%;
-}
-.add-to-cart-icon {
-  position: absolute;
-  left: 0;
-  top: 0;
-  color: white;
+.backgrownd-white {
+  background-color: white;
 }

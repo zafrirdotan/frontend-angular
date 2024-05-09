@@ -1,10 +1,10 @@
-<mat-drawer-container class="page-container" autosize>
+<mat-drawer-container autosize>
   <mat-drawer
     #drawer
     [mode]="isMobile? 'over': 'side'"
     [opened]=" isMobile? false: true"
   >
-    <div class="close-button-container">
+    <div class="close-button-container" *ngIf="isMobile">
       <button mat-button (click)="drawer.close()">
         <mat-icon>close</mat-icon>
       </button>
@@ -17,124 +17,28 @@
     </div>
   </mat-drawer>
 
-  <mat-drawer-content>
-    <div (click)="drawer.open()" *ngIf="!drawer.opened">
-      <button mat-raised-button>
-        <mat-icon>shopping_cart</mat-icon>
-      </button>
-    </div>
-    <div class="chat-container" #scrollTarget>
-      <div
-        *ngFor="let chatItem of chat$ | async; trackBy: trackBy "
-        class="message-container"
-        [ngClass]="{'bot-message': chatItem.role === 'assistant'}"
-      >
-        <div *ngIf=" chatItem.role==='user'" class="message user-message">
-          <div class="avatar">
-            <mat-icon class="user-avatar">account_circle</mat-icon>You
-          </div>
-          <div
-            class="message-content user-message"
-            [appMarkdown]="chatItem.content"
-          ></div>
-        </div>
-
-        <div *ngIf="chatItem.role === 'assistant'" class="message bot-message">
-          <div class="avatar">
-            <mat-icon class="gpt-avatar">shopping_cart</mat-icon>Cart bot
-          </div>
-          <div
-            class="message-content"
-            *ngIf="chatItem.actionType !== 'showAvailableProducts'"
-            [appMarkdown]="chatItem.content"
-          ></div>
-          <div
-            class="message-content"
-            *ngIf="chatItem.actionType === 'showAvailableProducts'"
-          >
-            I found some products for you
-            <div class="products-container">
-              <div
-                *ngFor="let category of chatItem.availableItems"
-                class="product-container"
-              >
-                <div class="product-category">
-                  For {{ category.searchTerm }} I found
-                </div>
-                <div class="product-items-slider">
-                  <div class="product-items">
-                    <div
-                      *ngFor="let product of category.items"
-                      class="available-item"
-                      (click)="addItemToCartOnClick(product)"
-                      (touchstart)="addItemToCartOnTouch(product)"
-                    >
-                      <mat-icon class="add-to-cart-icon"
-                        >add_shopping_cart</mat-icon
-                      >
-                      <div class="product-image-container">
-                        <img
-                          *ngIf="product.imgUrl"
-                          [src]="'https://source.unsplash.com/'+ product.imgUrl"
-                          alt="product image"
-                          class="product-image"
-                        />
-                      </div>
-                      <div class="details">
-                        <div class="product-name">{{ product.name }}</div>
-                        <div class="product-price">{{ product.price }}$</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- <div
-        *ngIf="this.isLoadingResponseMessage"
-        class="message-container"
-        #scrollTarget
-      >
-        <div class="message bot-message">
-          <div class="avatar">
-            <mat-icon class="gpt-avatar">shopping_cart</mat-icon>Cart bot
-          </div>
-          <app-assistant-message
-            class="message-content"
-            [message]="lastMessage"
-          ></app-assistant-message>
-        </div>
-      </div> -->
-    </div>
-
-    <div class="message-input-container">
-      <mat-form-field class="message-input" appearance="outline">
-        <textarea
-          [formControl]="messageInput"
-          #messageInputField
-          matInput
-          placeholder="Send a massage."
-          (keydown.enter)="sendMessage($event)"
-          appAutoResize="true"
-        ></textarea>
-
-        <button
-          mat-icon-button
-          aria-label="send message"
-          class="send-button"
-          (click)="sendMessage($event)"
-          *ngIf="!(this.isLoading$ |async); else loader;"
-        >
-          <mat-icon>send</mat-icon>
+  <mat-drawer-content class="backgrownd-white">
+    <div class="drawer-header">
+      <div (click)="drawer.open()">
+        <button mat-button *ngIf="!drawer.opened">
+          <mat-icon>shopping_cart</mat-icon>
         </button>
-
-        <ng-template #loader>
-          <app-chat-loader class="send-button"></app-chat-loader>
-        </ng-template>
-      </mat-form-field>
+      </div>
+      <div class="chat-actions">
+        <button
+          mat-button
+          aria-label="clear chat"
+          (click)="openClearChatDialog()"
+        >
+          <div>
+            <mat-icon>create</mat-icon>
+          </div>
+        </button>
+      </div>
     </div>
+
+    <app-chat></app-chat>
+
+    <app-textarea></app-textarea>
   </mat-drawer-content>
 </mat-drawer-container>
