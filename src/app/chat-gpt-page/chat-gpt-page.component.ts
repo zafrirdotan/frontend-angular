@@ -28,6 +28,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './chat-gpt-page.component.html',
   styleUrls: ['./chat-gpt-page.component.scss'],
   standalone: true,
+
   imports: [
     MatFormFieldModule,
     MatInputModule,
@@ -116,7 +117,7 @@ export class ChatGptPageComponent {
     this.selectedChatId = this.chatGptService.gatSelectedChat();
     this.chatsList = this.chatGptService.getChats() || [];
     if (this.selectedChatId) {
-      this.chat = this.chatGptService.getChat(this.selectedChatId);
+      this.chat = this.chatGptService.getChat(this.selectedChatId ?? '');
     }
     if (!this.selectedChatId) {
       this.createNewChat();
@@ -221,7 +222,7 @@ export class ChatGptPageComponent {
   changeChat(chat: ChatDetails) {
     this.selectedChatId = chat.id;
     this.chatGptService.setSelectedChat(chat.id);
-    this.chat = this.chatGptService.getChat(this.selectedChatId);
+    this.chat = this.chatGptService.getChat(this.selectedChatId ?? '');
   }
 
   createNewChat() {

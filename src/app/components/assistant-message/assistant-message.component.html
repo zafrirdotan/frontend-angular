@@ -1,9 +1,9 @@
 <div *ngFor="let partialMessage of formattedMessage" class="message-container">
-
-    <div *ngIf="partialMessage.type === 'text'" [innerHTML]="partialMessage.content">
-
-    </div>
-    <pre *ngIf="partialMessage.type === 'code'">
+  <div
+    *ngIf="partialMessage.type === 'text'"
+    [innerHTML]="partialMessage.content"
+  ></div>
+  <pre *ngIf="partialMessage.type === 'code'">
             <div class="code-container">
 
                 <div class="code-header">{{partialMessage.codeType}}</div>
@@ -14,5 +14,4 @@
                 </div>
             </div>
     </pre>
-
 </div>

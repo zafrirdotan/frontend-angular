@@ -1,5 +1,6 @@
 .page-container {
   height: calc(100vh - 64px);
+  background-color: white;
 }
 
 .drawer-concent {
@@ -19,9 +20,7 @@
 }
 
 .message-container {
-  margin: auto;
-  padding: 1rem;
-
+  padding: 0.5rem;
   .message {
     width: 80%;
     display: flex;
@@ -32,7 +31,7 @@
     }
 
     .avatar {
-      width: 3rem;
+      width: 2rem;
       height: 2rem;
       color: white;
       padding: 0.5rem;
@@ -40,6 +39,9 @@
       justify-content: center;
       font-size: 1rem;
       align-items: center;
+      border-radius: 50%;
+      width: 2rem;
+      height: 2rem;
     }
 
     .gpt-avatar {
@@ -58,23 +60,45 @@
 }
 
 .bot-message {
-  background-color: #f5f5f5;
+  padding-bottom: 0;
+}
+
+.chat-content {
+  position: relative; // Ensure this is the parent of .message-input-container
+  height: 100%;
 }
 
 .message-input-container {
+  position: absolute;
+  transition: top 0.3s ease-in-out;
+  bottom: 3rem;
   width: 100%;
-  display: flex;
-  justify-content: center;
   padding-top: 25px;
-  background: white;
 
   .message-input {
     width: 50%;
-
+    margin: auto;
+    background: white;
+    display: flex;
+    align-items: center;
+    border-radius: 3rem;
+    border: 1px solid #ccc;
+    padding-left: 1rem;
     @media (max-width: 768px) {
       width: 96%;
     }
+    .massage-input-field {
+      width: 100%;
+      resize: none;
+      font-size: 1rem;
+      border: none;
+      outline: none;
+    }
   }
+}
+
+.massage-input-centered {
+  top: 40%;
 }
 
 .chat-drawer {
@@ -90,13 +114,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0.5rem;
-    margin-right: 0;
+    height: 3rem;
   }
   .chat-button {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
 
     .button-content {
       display: flex;
@@ -125,8 +149,15 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 
   .new-button {
-    margin: 0 1rem;
+    margin: 1rem;
+  }
+
+  .close-button {
+    margin: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
   }
 }
