@@ -10,10 +10,17 @@ const routes: Routes = [
   { path: 'chat/signup/callback', component: ChatGptPageComponent },
   {
     path: 'chat',
-    component: ChatGptPageComponent,
+    loadComponent: () =>
+      import('./chat-gpt-page/chat-gpt-page.component').then(
+        (m) => m.ChatGptPageComponent
+      ),
     //canActivate: [AuthGuard]
   },
-  { path: 'grocery-bot', component: GroceryBotPage },
+  {
+    path: 'grocery-bot',
+    loadComponent: () =>
+      import('./grocery-bot/grocery-bot.page').then((m) => m.GroceryBotPage),
+  },
   {
     path: 'about',
     loadComponent: () => import('./about/about.page').then((m) => m.AboutPage),

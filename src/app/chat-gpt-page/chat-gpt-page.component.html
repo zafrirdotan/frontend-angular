@@ -95,19 +95,22 @@
         [class.massage-input-centered]="chat.length === 0"
       >
         <div class="message-input">
-          <input
+          <textarea
+            #autoFocusInput
+            autofocus
             class="massage-input-field"
             matInput
-            type="text"
             [(ngModel)]="inputValue"
-            placeholder="Send a message."
+            placeholder="Ask me anything"
             (keydown.enter)="sendMessage()"
-          />
+            rows="3"
+          ></textarea>
 
           <button
             matSuffix
             mat-icon-button
             color="primary"
+            class="send-button"
             aria-label="Send"
             (click)="sendMessage()"
             *ngIf="!isLoadingResponseMessage; else loader"
@@ -116,7 +119,9 @@
           </button>
 
           <ng-template #loader>
-            <app-chat-loader matSuffix></app-chat-loader>
+            <div class="loader-container">
+              <app-chat-loader matSuffix></app-chat-loader>
+            </div>
           </ng-template>
         </div>
       </div>

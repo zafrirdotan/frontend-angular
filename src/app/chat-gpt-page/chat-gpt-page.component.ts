@@ -1,5 +1,10 @@
 import { CommonModule, NgFor, NgIf, Location } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -21,7 +26,7 @@ import { LoginFormComponent } from '../login/login-form/login-form.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { SignupFormComponent } from '../login/signup-form/signup-form.component';
 import { User } from '../interfaces/user';
-import { Subscription } from 'rxjs';
+import { catchError, EMPTY, finalize, Subscription, tap } from 'rxjs';
 
 @Component({
   selector: 'app-chat-gpt-page',
@@ -123,6 +128,7 @@ export class ChatGptPageComponent {
       this.createNewChat();
     }
   }
+
   ngAfterViewInit() {
     this.scrollToEnd('instant');
   }
@@ -149,36 +155,37 @@ export class ChatGptPageComponent {
 
     this.isLoadingResponseMessage = true;
 
-    // temp code
-    this.chatCompSub = this.chatGptService
-      .getChatCompletionStreaming(this.inputValue, this.selectedChatId!)
-      .subscribe({
-        next: (tokens) => {
-          if (!this.lastMessage) {
-            // add the user message only after the first response
-            this.chat.push({ content: this.inputValue, role: 'user' });
-          }
+    // Push user message and clear input before subscribing
+    this.chat.push({ content: this.inputValue, role: 'user' });
+    const userInput = this.inputValue;
+    this.inputValue = '';
+    this.lastMessage = '';
 
-          this.lastMessage += tokens;
-          this.inputValue = '';
-          this.scrollToEnd();
-        },
-        error: (err) => {
+    this.chatCompSub = this.chatGptService
+      .getChatCompletionStreaming(userInput, this.selectedChatId!)
+      .pipe(
+        tap({
+          next: (tokens) => {
+            this.lastMessage += tokens;
+            this.scrollToEnd();
+          },
+        }),
+        finalize(() => {
+          this.isLoadingResponseMessage = false;
+          this.chat.push({ content: this.lastMessage, role: 'assistant' });
+          this.chatGptService.setChat(this.selectedChatId!, this.chat);
+          this.lastMessage = '';
+        }),
+        catchError((err) => {
           this.isLoadingResponseMessage = false;
           console.log('error', err);
-
           if (err.statusCode === 401) {
             this.openLoginDialog();
           }
-        },
-        complete: () => {
-          this.isLoadingResponseMessage = false;
-          this.chat.push({ content: this.lastMessage, role: 'assistant' });
-
-          this.chatGptService.setChat(this.selectedChatId!, this.chat);
-          this.lastMessage = '';
-        },
-      });
+          return EMPTY;
+        })
+      )
+      .subscribe();
   }
 
   getChatName() {

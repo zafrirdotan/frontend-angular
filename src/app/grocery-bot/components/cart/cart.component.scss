@@ -1,7 +1,5 @@
 .cart-container {
   height: calc(100vh - 11rem);
-  width: 25rem;
-  padding: 1rem;
   overflow-y: scroll;
   overflow-x: hidden;
   position: relative;
@@ -12,61 +10,62 @@
     width: 20rem;
   }
 }
-
 .cart-item-container {
-  padding: 0.5rem 0;
-}
-
-.cart-header {
   display: flex;
-  font-weight: bold;
-  align-items: center;
-  font-size: 1rem;
-  border-bottom: 1px solid gainsboro;
-  padding: 0.5rem 0;
-  .cart-title {
-    margin-left: 0.5rem;
-  }
+  justify-content: center;
 }
 
 .cart-item {
   display: flex;
-  padding-bottom: 0.5rem;
   align-items: center;
   justify-content: space-between;
-  position: relative;
+  width: 100%;
 }
 
 .item-name {
+  display: flex;
+  align-items: center;
   width: fit-content;
-  margin-right: 1rem;
 
   @media (max-width: 700px) {
-    width: 15rem;
+    width: 10rem;
   }
-}
-
-.item-price {
-  padding: 0 0.5rem;
-  width: 4rem;
-}
-
-.item-quantity {
-  padding: 0 0.5rem;
-  width: 3rem;
 }
 
 .item-select-panel {
   display: flex;
   align-items: center;
-  padding: 0.5rem 0;
+
   .option-name {
     margin: 0 1rem;
+    font-weight: 500;
+    color: #222;
+    font-size: 1rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 8rem;
+  }
+  .option-price {
+    color: #0fc40f;
   }
 }
 
 .option-image {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background: #f6f6f6;
+}
+
+.item-price {
+  padding: 0 0.5rem;
   width: 4rem;
+  font-weight: 600;
+  color: #0fc40f;
+  font-size: 1rem;
 }
 
 .item-quantity-container {
@@ -74,11 +73,18 @@
   align-items: center;
 }
 
+.item-quantity {
+  width: 3rem;
+  font-weight: 500;
+}
+
+.add-submit-items-buttons button {
+}
+
 .cart-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   border-top: 1px solid gainsboro;
   margin: 0.5rem 1rem;
   padding-top: 1rem;
@@ -86,5 +92,12 @@
   .total-price {
     text-align: right;
     font-weight: bold;
+    font-size: 1.1rem;
+  }
+  .pay-button {
+    border-radius: 2rem;
+    font-weight: 600;
+    padding: 0.5rem 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   }
 }

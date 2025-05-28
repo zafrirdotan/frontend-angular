@@ -77,22 +77,33 @@
 
   .message-input {
     width: 50%;
+    max-width: 40rem;
     margin: auto;
     background: white;
     display: flex;
-    align-items: center;
-    border-radius: 3rem;
+    border-radius: 2rem;
     border: 1px solid #ccc;
-    padding-left: 1rem;
+    padding: 0.5rem;
+    min-height: 60px;
+    resize: vertical;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     @media (max-width: 768px) {
       width: 96%;
     }
     .massage-input-field {
-      width: 100%;
+      width: 90%;
       resize: none;
       font-size: 1rem;
       border: none;
       outline: none;
+      padding: 1rem;
+    }
+
+    .send-button {
+      align-self: flex-end;
+    }
+    .loader-container {
+      align-self: flex-end;
     }
   }
 }

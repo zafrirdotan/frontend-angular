@@ -50,20 +50,24 @@
                 <div class="product-items">
                   <div
                     *ngFor="let product of category.items"
-                    class="available-item"
+                    class="available-item beautiful-card"
                     (click)="addItemToCartOnClick(product)"
                     (touchstart)="addItemToCartOnTouch(product)"
                   >
-                    <mat-icon class="add-to-cart-icon"
-                      >add_shopping_cart</mat-icon
-                    >
-                    <div class="product-image-container">
+                    <div class="card-image-wrapper">
                       <img
                         *ngIf="product.imgUrl"
                         [src]="'https://source.unsplash.com/' + product.imgUrl"
                         alt="product image"
                         class="product-image"
                       />
+                      <button
+                        mat-icon-button
+                        class="add-to-cart-btn"
+                        aria-label="Add to cart"
+                      >
+                        <mat-icon>add_shopping_cart</mat-icon>
+                      </button>
                     </div>
                     <div class="details">
                       <div class="product-name">{{ product.name }}</div>

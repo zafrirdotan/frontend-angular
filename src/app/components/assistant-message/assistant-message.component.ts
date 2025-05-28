@@ -3,13 +3,16 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  Sanitizer,
   SecurityContext,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { marked } from 'marked';
 import { HighlightCodeDirective } from 'src/app/directives/highlight-code.directive';
-import { massageContentItem } from 'src/app/interfaces/chat-item';
+
+type MessageContentType =
+  | { type: 'text'; content: string }
+  | { type: 'code'; content: string; codeType: string };
+
 @Component({
   selector: 'app-assistant-message',
   templateUrl: './assistant-message.component.html',
@@ -19,45 +22,51 @@ import { massageContentItem } from 'src/app/interfaces/chat-item';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssistantMessageComponent {
-  private _message: massageContentItem[] = [];
+  private _message: MessageContentType[] = [];
+  private _rawValue = '';
 
-  @Input() public set message(value: string) {
-    const parts = value?.split('```');
+  @Input() set message(value: string) {
+    if (value === this._rawValue) return;
+    this._rawValue = value;
 
-    const messageContentItems: massageContentItem[] = parts?.map(
-      (part, index) => {
-        // If the index is even, it's a text part
-        if (index % 2 === 0) {
-          return {
-            content: this.toMarkdownHtml(part),
-            type: 'text',
-          };
-        }
+    if (!value) {
+      this._message = [];
+      return;
+    }
 
-        // If the index is odd, it's a code part
+    const parts = value.split('```');
+    const parsed: MessageContentType[] = [];
+
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i];
+      if (!part.trim()) continue;
+
+      if (i % 2 === 0) {
+        // Text part
+        const html = this.toMarkdownHtml(part);
+        if (html) parsed.push({ type: 'text', content: html });
+      } else {
+        // Code part
         const [codeType, ...codeLines] = part.split('\n');
-
-        return {
-          content: codeLines.join('\n').trim(),
+        parsed.push({
           type: 'code',
-          codeType: codeType.trim() as massageContentItem['codeType'],
-        };
+          content: codeLines.join('\n').trim(),
+          codeType: codeType.trim() || 'plaintext',
+        });
       }
-    );
+    }
 
-    this._message = messageContentItems || [];
+    this._message = parsed;
   }
 
   constructor(private sanitizer: DomSanitizer) {}
 
-  get formattedMessage() {
+  get formattedMessage(): MessageContentType[] {
     return this._message;
   }
 
   toMarkdownHtml(str: string): string {
-    return this.sanitizer.sanitize(
-      SecurityContext.HTML,
-      marked.parse(str)
-    ) as string;
+    const raw = marked.parse(str);
+    return this.sanitizer.sanitize(SecurityContext.HTML, raw) || '';
   }
 }
